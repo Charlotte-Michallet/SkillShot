@@ -5,8 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>SkillShot</title>
 
-        <link rel="stylesheet" href="assets/style/style.css" />
-
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -16,6 +14,263 @@
 
         <!-- Tailwind CSS -->
         <script src="https://cdn.tailwindcss.com"></script>
+
+        <style>
+            :root {
+                --brand-yellow: #f9df2b;
+                --brand-orange: #f9630b;
+                --brand-pink: #fa61aa;
+                --brand-green: #68f957;
+                --brand-dark: #0d0d0d;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                background-color: #ffffff;
+                color: var(--brand-dark);
+                font-family: "Barlow Condensed", sans-serif;
+            }
+
+            body {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .font-display {
+                font-family: "Oswald", "Barlow Condensed", sans-serif;
+            }
+
+            .font-condensed {
+                font-family: "Barlow Condensed", sans-serif;
+            }
+
+            /* Top Yellow Header */
+            .top-header {
+                background-color: var(--brand-yellow);
+                height: 76px;
+                width: 100%;
+                position: sticky;
+                top: 0;
+                z-index: 40;
+            }
+
+            .nav-link {
+                font-family: "Barlow Condensed", sans-serif;
+                font-size: 1.45rem;
+                font-weight: 500;
+                color: var(--brand-dark);
+                cursor: pointer;
+                padding: 4px 2px;
+                border-bottom: 2.5px solid transparent;
+                transition:
+                    opacity 0.15s ease,
+                    border-color 0.15s ease;
+            }
+
+            .nav-link:hover {
+                opacity: 0.75;
+            }
+
+            .nav-link.active {
+                font-weight: 700;
+                border-bottom-color: var(--brand-dark);
+                text-decoration: underline;
+                text-underline-offset: 5px;
+                text-decoration-thickness: 2px;
+            }
+
+            /* Difficulty Pill Buttons */
+            .diff-btn {
+                font-family: "Barlow Condensed", sans-serif;
+                font-size: 1.4rem;
+                font-weight: 600;
+                color: var(--brand-dark);
+                padding: 10px 44px;
+                border-radius: 9999px;
+                border: 2.5px solid transparent;
+                cursor: pointer;
+                transition:
+                    transform 0.15s ease,
+                    box-shadow 0.15s ease,
+                    border-color 0.15s ease;
+            }
+
+            .diff-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            }
+
+            .diff-easy {
+                background-color: var(--brand-yellow);
+            }
+
+            .diff-normal {
+                background-color: var(--brand-orange);
+            }
+
+            .diff-hard {
+                background-color: var(--brand-pink);
+            }
+
+            .diff-btn.active {
+                border-color: var(--brand-dark);
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+                transform: scale(1.04);
+            }
+
+            /* Wheel Stage & Pointer */
+            .wheel-stage {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding-top: 14px;
+            }
+
+            .wheel-pointer {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 15px solid transparent;
+                border-right: 15px solid transparent;
+                border-top: 26px solid var(--brand-dark);
+                z-index: 20;
+                filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+                transition: transform 0.06s ease;
+            }
+
+            .wheel-pointer.tick {
+                transform: translateX(-50%) rotate(-12deg);
+            }
+
+            #wheelCanvas {
+                border-radius: 50%;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+                display: block;
+            }
+
+            /* Green Spin Button */
+            .spin-btn {
+                background-color: var(--brand-green);
+                color: var(--brand-dark);
+                font-family: "Barlow Condensed", sans-serif;
+                font-size: 1.75rem;
+                font-weight: 600;
+                padding: 13px 0;
+                width: 100%;
+                max-width: 440px;
+                border-radius: 9999px;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                transition:
+                    transform 0.15s ease,
+                    box-shadow 0.15s ease,
+                    opacity 0.15s ease;
+            }
+
+            .spin-btn:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+            }
+
+            .spin-btn:active:not(:disabled) {
+                transform: scale(0.98);
+            }
+
+            .spin-btn:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            @keyframes popIn {
+                0% {
+                    transform: scale(0.8);
+                    opacity: 0;
+                }
+                70% {
+                    transform: scale(1.05);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            .result-pop {
+                animation: popIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            }
+
+            /* Dictionary Search Bar */
+            .search-input-wrap {
+                position: relative;
+                width: 100%;
+                max-width: 660px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .search-input {
+                width: 100%;
+                padding: 13px 52px 13px 26px;
+                border-radius: 9999px;
+                border: 1.5px solid #525252;
+                font-family: "Barlow Condensed", sans-serif;
+                font-size: 1.25rem;
+                color: var(--brand-dark);
+                background-color: #ffffff;
+                outline: none;
+                transition:
+                    border-color 0.15s ease,
+                    box-shadow 0.15s ease;
+            }
+
+            .search-input:focus {
+                border-color: var(--brand-dark);
+                box-shadow: 0 0 0 3px rgba(249, 223, 43, 0.45);
+            }
+
+            .search-icon {
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #262626;
+                pointer-events: none;
+            }
+
+            /* Sticky Pink Footer */
+            .bottom-footer {
+                background-color: var(--brand-pink);
+                width: 100%;
+                padding: 14px 28px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                z-index: 40;
+            }
+
+            @media (max-width: 640px) {
+                .diff-btn {
+                    padding: 8px 26px;
+                    font-size: 1.25rem;
+                }
+                .top-header {
+                    height: 66px;
+                }
+            }
+        </style>
     </head>
 
     <body>
@@ -43,7 +298,6 @@
                             xmlns="http://www.w3.org/2000/svg"
                             aria-hidden="true"
                         >
-                            <!-- Top & Bottom Caps -->
                             <rect
                                 x="2"
                                 y="1"
@@ -60,7 +314,6 @@
                                 rx="1"
                                 fill="#0D0D0D"
                             />
-                            <!-- Glass Outline -->
                             <path
                                 d="M5 4.2V8.5C5 11.8 8.5 14.3 12 16C15.5 14.3 19 11.8 19 8.5V4.2H5Z"
                                 stroke="#0D0D0D"
@@ -73,7 +326,6 @@
                                 stroke-width="2.6"
                                 stroke-linejoin="round"
                             />
-                            <!-- Sand inside -->
                             <path
                                 d="M7.5 8.5H16.5C16.2 10.6 14.2 12.6 12 13.8C9.8 12.6 7.8 10.6 7.5 8.5Z"
                                 fill="#0D0D0D"
@@ -136,7 +388,6 @@
                 id="view-wheel"
                 class="w-full max-w-4xl mx-auto px-4 pt-8 sm:pt-10 pb-6 flex flex-col items-center justify-center"
             >
-                <!-- Difficulty Pill Buttons -->
                 <div
                     class="flex flex-wrap items-center justify-center gap-4 sm:gap-9 mb-6 sm:mb-7"
                     role="group"
@@ -168,15 +419,11 @@
                     </button>
                 </div>
 
-                <!-- Subtle Probability Legend -->
                 <div
                     id="prob-summary"
                     class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-base sm:text-lg text-neutral-700 mb-4 font-condensed"
-                >
-                    <!-- Populated by JS -->
-                </div>
+                ></div>
 
-                <!-- Wheel Container with Top Black Pointer -->
                 <div class="wheel-stage my-1">
                     <div
                         id="wheelPointer"
@@ -191,7 +438,6 @@
                     ></canvas>
                 </div>
 
-                <!-- Spin Action Button -->
                 <div class="w-full flex flex-col items-center mt-7 sm:mt-8">
                     <button
                         type="button"
@@ -203,7 +449,6 @@
                     </button>
                 </div>
 
-                <!-- Landed Result Display -->
                 <div
                     id="resultContainer"
                     class="min-h-[64px] mt-5 flex items-center justify-center w-full"
@@ -225,14 +470,12 @@
                 id="view-dictionary"
                 class="hidden w-full max-w-4xl mx-auto px-6 sm:px-10 pt-8 sm:pt-11 pb-8"
             >
-                <!-- Centered Title -->
                 <h1
                     class="font-display font-bold text-4xl sm:text-5xl text-center text-[#0D0D0D] tracking-tight mb-6 sm:mb-7"
                 >
                     Dictionary of the skills
                 </h1>
 
-                <!-- Rounded Pill Search Bar -->
                 <div class="search-input-wrap mb-8 sm:mb-10">
                     <input
                         type="text"
@@ -257,7 +500,6 @@
                     </svg>
                 </div>
 
-                <!-- Results Count Helper -->
                 <div
                     id="skillsCount"
                     class="text-right text-sm sm:text-base text-neutral-500 mb-3 font-condensed"
@@ -265,12 +507,8 @@
                     Showing 70 of 70 skills
                 </div>
 
-                <!-- 70 Soft Skills List (Title + Definition + Example) -->
-                <div id="skillsList" class="space-y-6 sm:space-y-7">
-                    <!-- Populated dynamically via JS -->
-                </div>
+                <div id="skillsList" class="space-y-6 sm:space-y-7"></div>
 
-                <!-- Empty Search State -->
                 <div id="noResultsMessage" class="hidden text-center py-12">
                     <p class="font-display text-2xl text-neutral-700">
                         No soft skills found matching your search.
@@ -301,7 +539,6 @@
                     Mime, describe, or give the opposite before time runs out!
                 </p>
 
-                <!-- Circular Timer Ring + Countdown Display -->
                 <div
                     class="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center mb-8"
                 >
@@ -310,7 +547,6 @@
                         viewBox="0 0 220 220"
                         aria-hidden="true"
                     >
-                        <!-- Background Track -->
                         <circle
                             cx="110"
                             cy="110"
@@ -319,7 +555,6 @@
                             stroke="#E5E7EB"
                             stroke-width="14"
                         />
-                        <!-- Dynamic Progress Ring -->
                         <circle
                             id="timerProgressRing"
                             cx="110"
@@ -335,7 +570,6 @@
                         />
                     </svg>
 
-                    <!-- Time Readout Inside Ring -->
                     <div
                         class="absolute inset-0 flex flex-col items-center justify-center select-none"
                     >
@@ -354,7 +588,6 @@
                     </div>
                 </div>
 
-                <!-- Control Buttons: Start / Stop / Restart -->
                 <div
                     class="flex flex-wrap items-center justify-center gap-4 sm:gap-5 w-full max-w-md"
                 >
@@ -472,9 +705,7 @@
         </div>
 
         <script>
-            /* ==========================================================================
-               1. NAVIGATION BETWEEN 'WHEEL', 'DICTIONARY', AND 'TIMER' VIEWS
-               ========================================================================== */
+            /* 1. NAVIGATION */
             function switchView(viewName) {
                 const views = {
                     wheel: document.getElementById("view-wheel"),
@@ -504,9 +735,7 @@
                 window.scrollTo({ top: 0, behavior: "smooth" });
             }
 
-            /* ==========================================================================
-               2. 16-SEGMENT INTERACTIVE WHEEL LOGIC
-               ========================================================================== */
+            /* 2. 16-SEGMENT INTERACTIVE WHEEL */
             const canvas = document.getElementById("wheelCanvas");
             const ctx = canvas.getContext("2d");
             const spinBtn = document.getElementById("spinBtn");
@@ -726,7 +955,6 @@
                 function animate(now) {
                     const elapsed = now - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-
                     const easeOut = 1 - Math.pow(1 - progress, 3);
                     currentRotation =
                         startRotation +
@@ -761,7 +989,6 @@
                 const segments = DIFFICULTY_LAYOUTS[currentDifficulty].segments;
                 const numSegments = segments.length;
                 const sliceAngle = (2 * Math.PI) / numSegments;
-
                 const normalizedRot =
                     ((rotationAngle % (2 * Math.PI)) + 2 * Math.PI) %
                     (2 * Math.PI);
@@ -784,11 +1011,9 @@
                 resultBadge.classList.add("result-pop");
             }
 
-            /* ==========================================================================
-               3. 15-SECOND TIMER LOGIC (START / STOP / RESTART)
-               ========================================================================== */
-            const TIMER_DURATION = 15.0; // seconds
-            const RING_CIRCUMFERENCE = 2 * Math.PI * 96; // 603.19
+            /* 3. 15-SECOND TIMER */
+            const TIMER_DURATION = 15.0;
+            const RING_CIRCUMFERENCE = 2 * Math.PI * 96;
             let remainingSeconds = TIMER_DURATION;
             let timerInterval = null;
             let timerRunning = false;
@@ -802,7 +1027,6 @@
 
             function updateTimerUI() {
                 timerDisplay.textContent = `${Math.max(0, remainingSeconds).toFixed(1)}s`;
-
                 const fraction = Math.max(0, remainingSeconds / TIMER_DURATION);
                 const offset = RING_CIRCUMFERENCE * (1 - fraction);
                 timerRing.style.strokeDashoffset = offset;
@@ -838,9 +1062,7 @@
                     gain.connect(audioCtx.destination);
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.45);
-                } catch (e) {
-                    // Ignore audio errors if blocked by browser policy
-                }
+                } catch (e) {}
             }
 
             function startTimer() {
@@ -898,9 +1120,7 @@
                 updateTimerUI();
             }
 
-            /* ==========================================================================
-               4. 70 SOFT SKILLS DICTIONARY DATA & SEARCH FILTER (TITLE + DEFINITION + EXAMPLE)
-               ========================================================================== */
+            /* 4. 70 SOFT SKILLS DICTIONARY */
             const SOFT_SKILLS = [
                 {
                     id: 1,
@@ -1528,9 +1748,7 @@
                 input.focus();
             }
 
-            /* ==========================================================================
-               5. LEGAL NOTICE MODAL CONTROLS
-               ========================================================================== */
+            /* 5. LEGAL NOTICE MODAL */
             function openLegalModal() {
                 const modal = document.getElementById("legalModal");
                 modal.classList.remove("hidden");
@@ -1557,9 +1775,7 @@
                 }
             });
 
-            /* ==========================================================================
-               6. INITIALIZATION ON PAGE LOAD
-               ========================================================================== */
+            /* 6. INITIALIZATION */
             window.addEventListener("resize", resizeAndDrawWheel);
             window.onload = function () {
                 updateProbabilitySummary();
