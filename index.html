@@ -32,8 +32,9 @@
             body {
                 margin: 0;
                 padding: 0;
-                height: 100vh;
-                overflow: hidden;
+                min-height: 100vh;
+                overflow-x: hidden;
+                overflow-y: auto;
                 background-color: #ffffff;
                 color: var(--brand-dark);
                 font-family: "Barlow Condensed", sans-serif;
@@ -46,9 +47,7 @@
 
             main {
                 flex: 1;
-                min-height: 0;
-                overflow-y: auto;
-                padding-bottom: 64px;
+                padding-bottom: 76px;
             }
 
             .font-display {
@@ -62,9 +61,10 @@
             /* Top Yellow Header */
             .top-header {
                 background-color: var(--brand-yellow);
-                height: 70px;
+                min-height: 70px;
                 width: 100%;
-                flex-shrink: 0;
+                position: sticky;
+                top: 0;
                 z-index: 40;
             }
 
@@ -79,6 +79,7 @@
                 transition:
                     opacity 0.15s ease,
                     border-color 0.15s ease;
+                white-space: nowrap;
             }
 
             .nav-link:hover {
@@ -93,38 +94,13 @@
                 text-decoration-thickness: 2px;
             }
 
-            /* Wheel View Compact Spacing */
-            #view-wheel {
-                padding-top: 14px !important;
-                padding-bottom: 10px !important;
-            }
-
-            #view-wheel .mb-6,
-            #view-wheel .mb-7 {
-                margin-bottom: 10px !important;
-            }
-
-            #view-wheel .mt-7,
-            #view-wheel .mt-8 {
-                margin-top: 12px !important;
-            }
-
-            #prob-summary {
-                margin-bottom: 8px !important;
-            }
-
-            #resultContainer {
-                min-height: 46px !important;
-                margin-top: 10px !important;
-            }
-
             /* Difficulty Pill Buttons */
             .diff-btn {
                 font-family: "Barlow Condensed", sans-serif;
                 font-size: 1.35rem;
                 font-weight: 600;
                 color: var(--brand-dark);
-                padding: 8px 40px;
+                padding: 8px 36px;
                 border-radius: 9999px;
                 border: 2.5px solid transparent;
                 cursor: pointer;
@@ -198,7 +174,7 @@
                 font-family: "Barlow Condensed", sans-serif;
                 font-size: 1.65rem;
                 font-weight: 600;
-                padding: 11px 0;
+                padding: 11px 24px;
                 width: 100%;
                 max-width: 420px;
                 border-radius: 9999px;
@@ -255,11 +231,11 @@
 
             .search-input {
                 width: 100%;
-                padding: 13px 52px 13px 26px;
+                padding: 12px 48px 12px 22px;
                 border-radius: 9999px;
                 border: 1.5px solid #525252;
                 font-family: "Barlow Condensed", sans-serif;
-                font-size: 1.25rem;
+                font-size: 1.2rem;
                 color: var(--brand-dark);
                 background-color: #ffffff;
                 outline: none;
@@ -275,7 +251,7 @@
 
             .search-icon {
                 position: absolute;
-                right: 20px;
+                right: 18px;
                 top: 50%;
                 transform: translateY(-50%);
                 color: #262626;
@@ -286,28 +262,47 @@
             .bottom-footer {
                 background-color: var(--brand-pink);
                 width: 100%;
-                padding: 12px 28px;
+                padding: 10px 20px;
                 position: fixed;
                 bottom: 0;
                 left: 0;
                 z-index: 40;
             }
 
+            /* Mobile Responsiveness */
             @media (max-width: 640px) {
-                .diff-btn {
-                    padding: 7px 24px;
-                    font-size: 1.2rem;
-                }
                 .top-header {
-                    height: 62px;
+                    min-height: 58px;
+                    padding-top: 6px;
+                    padding-bottom: 6px;
+                }
+                .nav-link {
+                    font-size: 1.15rem;
+                }
+                .diff-btn {
+                    padding: 6px 18px;
+                    font-size: 1.1rem;
+                }
+                .spin-btn {
+                    font-size: 1.35rem;
+                    padding: 10px 18px;
+                    max-width: 300px;
+                }
+                #resultText {
+                    font-size: 1.1rem !important;
+                }
+                .bottom-footer {
+                    padding: 8px 14px;
                 }
             }
         </style>
     </head>
 
     <body>
-        <header class="top-header flex items-center px-6 sm:px-12 shadow-sm">
-            <div class="flex items-center gap-8 sm:gap-14 w-full max-w-7xl">
+        <header class="top-header flex items-center px-4 sm:px-12 shadow-sm">
+            <div
+                class="flex items-center justify-between sm:justify-start gap-4 sm:gap-14 w-full max-w-7xl"
+            >
                 <!-- SkillShot Logo with Hourglass replacing 'o' in Shot -->
                 <a
                     href="#wheel"
@@ -315,11 +310,11 @@
                         switchView('wheel');
                         return false;
                     "
-                    class="flex items-center select-none group"
+                    class="flex items-center select-none group shrink-0"
                     aria-label="SkillShot Home"
                 >
                     <span
-                        class="font-display font-bold text-3xl sm:text-4xl tracking-tight text-[#0D0D0D] flex items-center leading-none"
+                        class="font-display font-bold text-2xl sm:text-4xl tracking-tight text-[#0D0D0D] flex items-center leading-none"
                     >
                         SkillSh
                         <svg
@@ -381,7 +376,7 @@
 
                 <!-- Navigation Links -->
                 <nav
-                    class="flex items-center gap-6 sm:gap-11"
+                    class="flex items-center gap-4 sm:gap-11"
                     aria-label="Main Navigation"
                 >
                     <button
@@ -417,10 +412,10 @@
             <!-- ==================== VIEW 1: WHEEL ==================== -->
             <section
                 id="view-wheel"
-                class="w-full max-w-4xl mx-auto px-4 pt-4 pb-3 flex flex-col items-center justify-center"
+                class="w-full max-w-4xl mx-auto px-4 pt-4 sm:pt-6 pb-4 flex flex-col items-center justify-center"
             >
                 <div
-                    class="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-3"
+                    class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-8 mb-3"
                     role="group"
                     aria-label="Select difficulty"
                 >
@@ -452,7 +447,7 @@
 
                 <div
                     id="prob-summary"
-                    class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-base sm:text-lg text-neutral-700 mb-2 font-condensed"
+                    class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-sm sm:text-lg text-neutral-700 mb-2 font-condensed"
                 ></div>
 
                 <div class="wheel-stage my-0.5">
@@ -469,7 +464,7 @@
                     ></canvas>
                 </div>
 
-                <div class="w-full flex flex-col items-center mt-3">
+                <div class="w-full flex flex-col items-center mt-3 sm:mt-4">
                     <button
                         type="button"
                         id="spinBtn"
@@ -482,15 +477,15 @@
 
                 <div
                     id="resultContainer"
-                    class="min-h-[46px] mt-2.5 flex items-center justify-center w-full"
+                    class="min-h-[46px] mt-2.5 px-2 flex items-center justify-center w-full"
                 >
                     <div
                         id="resultBadge"
-                        class="hidden px-7 py-2 rounded-full border-2 border-[#0D0D0D] shadow-md text-center"
+                        class="hidden px-5 sm:px-7 py-2 rounded-full border-2 border-[#0D0D0D] shadow-md text-center max-w-full"
                     >
                         <span
                             id="resultText"
-                            class="font-display font-bold text-xl sm:text-2xl tracking-wide uppercase text-[#0D0D0D]"
+                            class="font-display font-bold text-lg sm:text-2xl tracking-wide uppercase text-[#0D0D0D] break-words"
                         ></span>
                     </div>
                 </div>
@@ -499,15 +494,15 @@
             <!-- ==================== VIEW 2: DICTIONARY ==================== -->
             <section
                 id="view-dictionary"
-                class="hidden w-full max-w-4xl mx-auto px-6 sm:px-10 pt-8 sm:pt-11 pb-8"
+                class="hidden w-full max-w-4xl mx-auto px-5 sm:px-10 pt-6 sm:pt-10 pb-8"
             >
                 <h1
-                    class="font-display font-bold text-4xl sm:text-5xl text-center text-[#0D0D0D] tracking-tight mb-6 sm:mb-7"
+                    class="font-display font-bold text-3xl sm:text-5xl text-center text-[#0D0D0D] tracking-tight mb-5 sm:mb-7"
                 >
                     Dictionary of the skills
                 </h1>
 
-                <div class="search-input-wrap mb-8 sm:mb-10">
+                <div class="search-input-wrap mb-6 sm:mb-10">
                     <input
                         type="text"
                         id="skillSearchInput"
@@ -517,7 +512,7 @@
                         oninput="filterSkills()"
                     />
                     <svg
-                        class="search-icon w-6 h-6"
+                        class="search-icon w-5 h-5 sm:w-6 sm:h-6"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -557,21 +552,21 @@
             <!-- ==================== VIEW 3: 15-SECOND TIMER ==================== -->
             <section
                 id="view-timer"
-                class="hidden w-full max-w-3xl mx-auto px-6 pt-6 sm:pt-8 pb-6 flex flex-col items-center justify-center text-center"
+                class="hidden w-full max-w-3xl mx-auto px-5 pt-6 sm:pt-8 pb-6 flex flex-col items-center justify-center text-center"
             >
                 <h1
-                    class="font-display font-bold text-4xl sm:text-5xl text-[#0D0D0D] tracking-tight mb-1"
+                    class="font-display font-bold text-3xl sm:text-5xl text-[#0D0D0D] tracking-tight mb-1"
                 >
                     15-Second Round Timer
                 </h1>
                 <p
-                    class="font-condensed text-lg sm:text-xl text-neutral-600 mb-6"
+                    class="font-condensed text-base sm:text-xl text-neutral-600 mb-6"
                 >
                     Mime, describe, or give the opposite before time runs out!
                 </p>
 
                 <div
-                    class="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center mb-6"
+                    class="relative w-52 h-52 sm:w-64 sm:h-64 flex items-center justify-center mb-6"
                 >
                     <svg
                         class="w-full h-full -rotate-90 drop-shadow-md"
@@ -606,13 +601,13 @@
                     >
                         <span
                             id="timerDisplay"
-                            class="font-display font-bold text-5xl sm:text-6xl text-[#0D0D0D] tracking-tight leading-none"
+                            class="font-display font-bold text-4xl sm:text-6xl text-[#0D0D0D] tracking-tight leading-none"
                         >
                             15.0s
                         </span>
                         <span
                             id="timerStatus"
-                            class="font-condensed font-semibold uppercase tracking-wider text-base sm:text-lg text-neutral-500 mt-2"
+                            class="font-condensed font-semibold uppercase tracking-wider text-sm sm:text-lg text-neutral-500 mt-2"
                         >
                             Ready
                         </span>
@@ -620,13 +615,13 @@
                 </div>
 
                 <div
-                    class="flex flex-wrap items-center justify-center gap-4 sm:gap-5 w-full max-w-md"
+                    class="flex flex-wrap items-center justify-center gap-3 sm:gap-5 w-full max-w-md"
                 >
                     <button
                         type="button"
                         id="timerStartBtn"
                         onclick="startTimer()"
-                        class="flex-1 min-w-[105px] py-3 px-6 rounded-full bg-[#68F957] border-2 border-[#0D0D0D] font-display font-bold text-xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
+                        class="flex-1 min-w-[95px] py-2.5 sm:py-3 px-5 sm:px-6 rounded-full bg-[#68F957] border-2 border-[#0D0D0D] font-display font-bold text-lg sm:text-xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
                     >
                         Start
                     </button>
@@ -635,7 +630,7 @@
                         id="timerStopBtn"
                         onclick="stopTimer()"
                         disabled
-                        class="flex-1 min-w-[105px] py-3 px-6 rounded-full bg-[#F9630B] border-2 border-[#0D0D0D] font-display font-bold text-xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
+                        class="flex-1 min-w-[95px] py-2.5 sm:py-3 px-5 sm:px-6 rounded-full bg-[#F9630B] border-2 border-[#0D0D0D] font-display font-bold text-lg sm:text-xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
                     >
                         Stop
                     </button>
@@ -643,7 +638,7 @@
                         type="button"
                         id="timerRestartBtn"
                         onclick="restartTimer()"
-                        class="flex-1 min-w-[105px] py-3 px-6 rounded-full bg-[#FA61AA] border-2 border-[#0D0D0D] font-display font-bold text-xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer"
+                        class="flex-1 min-w-[95px] py-2.5 sm:py-3 px-5 sm:px-6 rounded-full bg-[#FA61AA] border-2 border-[#0D0D0D] font-display font-bold text-lg sm:text-xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer"
                     >
                         Restart
                     </button>
@@ -654,14 +649,14 @@
         <!-- STICKY PINK FOOTER -->
         <footer class="bottom-footer">
             <div
-                class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between relative text-base sm:text-lg font-condensed text-[#0D0D0D]"
+                class="w-full max-w-7xl mx-auto flex flex-row items-center justify-between gap-2 text-sm sm:text-lg font-condensed text-[#0D0D0D]"
             >
-                <div class="sm:w-1/3 text-left">Copyright © 2026 SkillShot</div>
-                <div class="sm:w-1/3 text-center">
+                <div class="text-left">Copyright © 2026 SkillShot</div>
+                <div class="text-right sm:text-center">
                     <button
                         type="button"
                         onclick="openLegalModal()"
-                        class="underline bg-transparent border-0 p-0 font-condensed text-base sm:text-lg text-[#0D0D0D] cursor-pointer hover:opacity-75"
+                        class="underline bg-transparent border-0 p-0 font-condensed text-sm sm:text-lg text-[#0D0D0D] cursor-pointer hover:opacity-75"
                     >
                         Legal notice
                     </button>
@@ -900,10 +895,10 @@
             }
 
             function resizeAndDrawWheel() {
-                const maxByWidth = window.innerWidth - 48;
-                const maxByHeight = window.innerHeight - 310;
+                const maxByWidth = window.innerWidth - 32;
+                const maxByHeight = window.innerHeight - 280;
                 const size = Math.max(
-                    210,
+                    190,
                     Math.min(maxByWidth, maxByHeight, 320),
                 );
                 const dpr = window.devicePixelRatio || 1;
