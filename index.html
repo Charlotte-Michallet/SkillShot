@@ -1,0 +1,1572 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SkillShot</title>
+
+        <link rel="stylesheet" href="/assets/style/style.css" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body>
+        <header class="top-header flex items-center px-6 sm:px-12 shadow-sm">
+            <div class="flex items-center gap-8 sm:gap-14 w-full max-w-7xl">
+                <!-- SkillShot Logo with Hourglass replacing 'o' in Shot -->
+                <a
+                    href="#wheel"
+                    onclick="
+                        switchView('wheel');
+                        return false;
+                    "
+                    class="flex items-center select-none group"
+                    aria-label="SkillShot Home"
+                >
+                    <span
+                        class="font-display font-bold text-3xl sm:text-4xl tracking-tight text-[#0D0D0D] flex items-center leading-none"
+                    >
+                        SkillSh
+                        <!-- Inline SVG Hourglass Icon -->
+                        <svg
+                            class="inline-block w-[0.58em] h-[0.76em] mx-[1px] translate-y-[1px]"
+                            viewBox="0 0 24 32"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                        >
+                            <!-- Top & Bottom Caps -->
+                            <rect
+                                x="2"
+                                y="1"
+                                width="20"
+                                height="3.2"
+                                rx="1"
+                                fill="#0D0D0D"
+                            />
+                            <rect
+                                x="2"
+                                y="27.8"
+                                width="20"
+                                height="3.2"
+                                rx="1"
+                                fill="#0D0D0D"
+                            />
+                            <!-- Glass Outline -->
+                            <path
+                                d="M5 4.2V8.5C5 11.8 8.5 14.3 12 16C15.5 14.3 19 11.8 19 8.5V4.2H5Z"
+                                stroke="#0D0D0D"
+                                stroke-width="2.6"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M5 27.8V23.5C5 20.2 8.5 17.7 12 16C15.5 17.7 19 20.2 19 23.5V27.8H5Z"
+                                stroke="#0D0D0D"
+                                stroke-width="2.6"
+                                stroke-linejoin="round"
+                            />
+                            <!-- Sand inside -->
+                            <path
+                                d="M7.5 8.5H16.5C16.2 10.6 14.2 12.6 12 13.8C9.8 12.6 7.8 10.6 7.5 8.5Z"
+                                fill="#0D0D0D"
+                            />
+                            <path
+                                d="M7.2 26.5H16.8C16.4 24.4 14.2 23.2 12 23.2C9.8 23.2 7.6 24.4 7.2 26.5Z"
+                                fill="#0D0D0D"
+                            />
+                            <line
+                                x1="12"
+                                y1="15.5"
+                                x2="12"
+                                y2="23.5"
+                                stroke="#0D0D0D"
+                                stroke-width="1.6"
+                                stroke-dasharray="2 1.5"
+                            />
+                        </svg>
+                        t
+                    </span>
+                </a>
+
+                <!-- Navigation Links -->
+                <nav
+                    class="flex items-center gap-6 sm:gap-11"
+                    aria-label="Main Navigation"
+                >
+                    <button
+                        id="nav-wheel"
+                        type="button"
+                        onclick="switchView('wheel')"
+                        class="nav-link active bg-transparent border-0"
+                    >
+                        Wheel
+                    </button>
+                    <button
+                        id="nav-dictionary"
+                        type="button"
+                        onclick="switchView('dictionary')"
+                        class="nav-link bg-transparent border-0"
+                    >
+                        Dictionary
+                    </button>
+                    <button
+                        id="nav-timer"
+                        type="button"
+                        onclick="switchView('timer')"
+                        class="nav-link bg-transparent border-0"
+                    >
+                        Timer
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 w-full pb-24">
+            <!-- ==================== VIEW 1: WHEEL ==================== -->
+            <section
+                id="view-wheel"
+                class="w-full max-w-4xl mx-auto px-4 pt-8 sm:pt-10 pb-6 flex flex-col items-center justify-center"
+            >
+                <!-- Difficulty Pill Buttons -->
+                <div
+                    class="flex flex-wrap items-center justify-center gap-4 sm:gap-9 mb-6 sm:mb-7"
+                    role="group"
+                    aria-label="Select difficulty"
+                >
+                    <button
+                        type="button"
+                        id="btn-easy"
+                        class="diff-btn diff-easy"
+                        onclick="setDifficulty('easy')"
+                    >
+                        Easy
+                    </button>
+                    <button
+                        type="button"
+                        id="btn-normal"
+                        class="diff-btn diff-normal active"
+                        onclick="setDifficulty('normal')"
+                    >
+                        Normal
+                    </button>
+                    <button
+                        type="button"
+                        id="btn-hard"
+                        class="diff-btn diff-hard"
+                        onclick="setDifficulty('hard')"
+                    >
+                        Hard
+                    </button>
+                </div>
+
+                <!-- Subtle Probability Legend -->
+                <div
+                    id="prob-summary"
+                    class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-base sm:text-lg text-neutral-700 mb-4 font-condensed"
+                >
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Wheel Container with Top Black Pointer -->
+                <div class="wheel-stage my-1">
+                    <div
+                        id="wheelPointer"
+                        class="wheel-pointer"
+                        aria-hidden="true"
+                    ></div>
+                    <canvas
+                        id="wheelCanvas"
+                        width="340"
+                        height="340"
+                        aria-label="SkillShot Action Wheel"
+                    ></canvas>
+                </div>
+
+                <!-- Spin Action Button -->
+                <div class="w-full flex flex-col items-center mt-7 sm:mt-8">
+                    <button
+                        type="button"
+                        id="spinBtn"
+                        class="spin-btn"
+                        onclick="spinWheel()"
+                    >
+                        Spin the Wheel!
+                    </button>
+                </div>
+
+                <!-- Landed Result Display -->
+                <div
+                    id="resultContainer"
+                    class="min-h-[64px] mt-5 flex items-center justify-center w-full"
+                >
+                    <div
+                        id="resultBadge"
+                        class="hidden px-8 py-2.5 rounded-full border-2 border-[#0D0D0D] shadow-md text-center"
+                    >
+                        <span
+                            id="resultText"
+                            class="font-display font-bold text-2xl sm:text-3xl tracking-wide uppercase text-[#0D0D0D]"
+                        ></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 2: DICTIONARY ==================== -->
+            <section
+                id="view-dictionary"
+                class="hidden w-full max-w-4xl mx-auto px-6 sm:px-10 pt-8 sm:pt-11 pb-8"
+            >
+                <!-- Centered Title -->
+                <h1
+                    class="font-display font-bold text-4xl sm:text-5xl text-center text-[#0D0D0D] tracking-tight mb-6 sm:mb-7"
+                >
+                    Dictionary of the skills
+                </h1>
+
+                <!-- Rounded Pill Search Bar -->
+                <div class="search-input-wrap mb-8 sm:mb-10">
+                    <input
+                        type="text"
+                        id="skillSearchInput"
+                        class="search-input"
+                        placeholder="Search a soft skill or keyword..."
+                        aria-label="Search soft skills"
+                        oninput="filterSkills()"
+                    />
+                    <svg
+                        class="search-icon w-6 h-6"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <circle cx="11" cy="11" r="7.5"></circle>
+                        <line x1="20.5" y1="20.5" x2="16.35" y2="16.35"></line>
+                    </svg>
+                </div>
+
+                <!-- Results Count Helper -->
+                <div
+                    id="skillsCount"
+                    class="text-right text-sm sm:text-base text-neutral-500 mb-3 font-condensed"
+                >
+                    Showing 70 of 70 skills
+                </div>
+
+                <!-- 70 Soft Skills List (Title + Definition + Example) -->
+                <div id="skillsList" class="space-y-6 sm:space-y-7">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <!-- Empty Search State -->
+                <div id="noResultsMessage" class="hidden text-center py-12">
+                    <p class="font-display text-2xl text-neutral-700">
+                        No soft skills found matching your search.
+                    </p>
+                    <button
+                        type="button"
+                        onclick="resetSearch()"
+                        class="mt-4 px-6 py-2 rounded-full bg-[#F9DF2B] font-condensed text-lg font-semibold text-[#0D0D0D] hover:opacity-90"
+                    >
+                        Reset Search
+                    </button>
+                </div>
+            </section>
+
+            <!-- ==================== VIEW 3: 15-SECOND TIMER ==================== -->
+            <section
+                id="view-timer"
+                class="hidden w-full max-w-3xl mx-auto px-6 pt-10 sm:pt-14 pb-8 flex flex-col items-center justify-center text-center"
+            >
+                <h1
+                    class="font-display font-bold text-4xl sm:text-5xl text-[#0D0D0D] tracking-tight mb-2"
+                >
+                    15-Second Round Timer
+                </h1>
+                <p
+                    class="font-condensed text-lg sm:text-xl text-neutral-600 mb-8"
+                >
+                    Mime, describe, or give the opposite before time runs out!
+                </p>
+
+                <!-- Circular Timer Ring + Countdown Display -->
+                <div
+                    class="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center mb-8"
+                >
+                    <svg
+                        class="w-full h-full -rotate-90 drop-shadow-md"
+                        viewBox="0 0 220 220"
+                        aria-hidden="true"
+                    >
+                        <!-- Background Track -->
+                        <circle
+                            cx="110"
+                            cy="110"
+                            r="96"
+                            fill="#FFFFFF"
+                            stroke="#E5E7EB"
+                            stroke-width="14"
+                        />
+                        <!-- Dynamic Progress Ring -->
+                        <circle
+                            id="timerProgressRing"
+                            cx="110"
+                            cy="110"
+                            r="96"
+                            fill="none"
+                            stroke="#F9DF2B"
+                            stroke-width="14"
+                            stroke-linecap="round"
+                            stroke-dasharray="603.19"
+                            stroke-dashoffset="0"
+                            style="transition: stroke 0.25s ease"
+                        />
+                    </svg>
+
+                    <!-- Time Readout Inside Ring -->
+                    <div
+                        class="absolute inset-0 flex flex-col items-center justify-center select-none"
+                    >
+                        <span
+                            id="timerDisplay"
+                            class="font-display font-bold text-6xl sm:text-7xl text-[#0D0D0D] tracking-tight leading-none"
+                        >
+                            15.0s
+                        </span>
+                        <span
+                            id="timerStatus"
+                            class="font-condensed font-semibold uppercase tracking-wider text-base sm:text-lg text-neutral-500 mt-2"
+                        >
+                            Ready
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Control Buttons: Start / Stop / Restart -->
+                <div
+                    class="flex flex-wrap items-center justify-center gap-4 sm:gap-5 w-full max-w-md"
+                >
+                    <button
+                        type="button"
+                        id="timerStartBtn"
+                        onclick="startTimer()"
+                        class="flex-1 min-w-[110px] py-3.5 px-6 rounded-full bg-[#68F957] border-2 border-[#0D0D0D] font-display font-bold text-xl sm:text-2xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
+                    >
+                        Start
+                    </button>
+
+                    <button
+                        type="button"
+                        id="timerStopBtn"
+                        onclick="stopTimer()"
+                        disabled
+                        class="flex-1 min-w-[110px] py-3.5 px-6 rounded-full bg-[#F9630B] border-2 border-[#0D0D0D] font-display font-bold text-xl sm:text-2xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
+                    >
+                        Stop
+                    </button>
+
+                    <button
+                        type="button"
+                        id="timerRestartBtn"
+                        onclick="restartTimer()"
+                        class="flex-1 min-w-[110px] py-3.5 px-6 rounded-full bg-[#FA61AA] border-2 border-[#0D0D0D] font-display font-bold text-xl sm:text-2xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer"
+                    >
+                        Restart
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- STICKY PINK FOOTER -->
+        <footer class="bottom-footer">
+            <div
+                class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between relative text-base sm:text-lg font-condensed text-[#0D0D0D]"
+            >
+                <div class="sm:w-1/3 text-left">Copyright © 2026 SkillShot</div>
+                <div class="sm:w-1/3 text-center">
+                    <button
+                        type="button"
+                        onclick="openLegalModal()"
+                        class="underline bg-transparent border-0 p-0 font-condensed text-base sm:text-lg text-[#0D0D0D] cursor-pointer hover:opacity-75"
+                    >
+                        Legal notice
+                    </button>
+                </div>
+                <div class="hidden sm:block sm:w-1/3"></div>
+            </div>
+        </footer>
+
+        <!-- LEGAL NOTICE MODAL -->
+        <div
+            id="legalModal"
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 px-4"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="legalModalTitle"
+        >
+            <div
+                class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-2 border-[#0D0D0D] relative"
+            >
+                <div class="flex items-center justify-between mb-4">
+                    <h2
+                        id="legalModalTitle"
+                        class="font-display font-bold text-3xl text-[#0D0D0D]"
+                    >
+                        Legal Notice
+                    </h2>
+                    <button
+                        type="button"
+                        onclick="closeLegalModal()"
+                        class="w-9 h-9 rounded-full bg-[#F9DF2B] flex items-center justify-center font-bold text-xl text-[#0D0D0D] hover:opacity-80 cursor-pointer"
+                        aria-label="Close modal"
+                    >
+                        ✕
+                    </button>
+                </div>
+                <div
+                    class="space-y-3 font-condensed text-lg text-neutral-800 leading-snug"
+                >
+                    <p>
+                        <strong>SkillShot</strong> is an educational and
+                        team-building soft skills game designed to help
+                        coworkers and students practice workplace communication,
+                        active listening, and emotional intelligence.
+                    </p>
+                    <p>
+                        <strong>Publisher:</strong> SkillShot Team — Educational
+                        Project (2026).
+                    </p>
+                    <p>
+                        <strong>Intellectual Property:</strong> All game
+                        mechanics, visual identity, and the 70 Soft Skills
+                        Dictionary content are © 2026 SkillShot. All rights
+                        reserved.
+                    </p>
+                    <p>
+                        <strong>Privacy:</strong> This application runs locally
+                        in your browser and collects no personal data.
+                    </p>
+                </div>
+                <div class="mt-6 text-right">
+                    <button
+                        type="button"
+                        onclick="closeLegalModal()"
+                        class="px-7 py-2 rounded-full bg-[#FA61AA] text-[#0D0D0D] font-condensed font-semibold text-lg hover:opacity-90 cursor-pointer"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            /* ==========================================================================
+               1. NAVIGATION BETWEEN 'WHEEL', 'DICTIONARY', AND 'TIMER' VIEWS
+               ========================================================================== */
+            function switchView(viewName) {
+                const views = {
+                    wheel: document.getElementById("view-wheel"),
+                    dictionary: document.getElementById("view-dictionary"),
+                    timer: document.getElementById("view-timer"),
+                };
+                const navs = {
+                    wheel: document.getElementById("nav-wheel"),
+                    dictionary: document.getElementById("nav-dictionary"),
+                    timer: document.getElementById("nav-timer"),
+                };
+
+                Object.keys(views).forEach((key) => {
+                    if (key === viewName) {
+                        views[key].classList.remove("hidden");
+                        navs[key].classList.add("active");
+                    } else {
+                        views[key].classList.add("hidden");
+                        navs[key].classList.remove("active");
+                    }
+                });
+
+                if (viewName === "wheel") {
+                    resizeAndDrawWheel();
+                }
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            /* ==========================================================================
+               2. 16-SEGMENT INTERACTIVE WHEEL LOGIC
+               ========================================================================== */
+            const canvas = document.getElementById("wheelCanvas");
+            const ctx = canvas.getContext("2d");
+            const spinBtn = document.getElementById("spinBtn");
+            const wheelPointer = document.getElementById("wheelPointer");
+            const resultBadge = document.getElementById("resultBadge");
+            const resultText = document.getElementById("resultText");
+            const probSummary = document.getElementById("prob-summary");
+
+            const SEGMENT_TYPES = {
+                words: {
+                    label: "words",
+                    color: "#F9DF2B",
+                    description: "WORDS — Describe without saying the skill!",
+                },
+                flip: {
+                    label: "flip",
+                    color: "#F9630B",
+                    description: "FLIP — Describe the exact opposite!",
+                },
+                mime: {
+                    label: "mime",
+                    color: "#FA61AA",
+                    description: "MIME — Act it out without speaking!",
+                },
+            };
+
+            const DIFFICULTY_LAYOUTS = {
+                easy: {
+                    counts: { words: 10, flip: 4, mime: 2 },
+                    segments: [
+                        "words",
+                        "words",
+                        "flip",
+                        "words",
+                        "words",
+                        "mime",
+                        "words",
+                        "flip",
+                        "words",
+                        "words",
+                        "flip",
+                        "words",
+                        "mime",
+                        "words",
+                        "flip",
+                        "words",
+                    ],
+                },
+                normal: {
+                    counts: { words: 6, flip: 5, mime: 5 },
+                    segments: [
+                        "flip",
+                        "flip",
+                        "words",
+                        "mime",
+                        "mime",
+                        "words",
+                        "words",
+                        "words",
+                        "flip",
+                        "mime",
+                        "flip",
+                        "words",
+                        "words",
+                        "flip",
+                        "mime",
+                        "flip",
+                    ],
+                },
+                hard: {
+                    counts: { words: 3, flip: 5, mime: 8 },
+                    segments: [
+                        "mime",
+                        "flip",
+                        "mime",
+                        "words",
+                        "mime",
+                        "flip",
+                        "mime",
+                        "flip",
+                        "mime",
+                        "words",
+                        "mime",
+                        "flip",
+                        "mime",
+                        "flip",
+                        "mime",
+                        "words",
+                    ],
+                },
+            };
+
+            let currentDifficulty = "normal";
+            let currentRotation = -Math.PI / 2;
+            let isSpinning = false;
+            let lastTickIndex = -1;
+
+            function setDifficulty(level) {
+                if (isSpinning) return;
+                currentDifficulty = level;
+
+                ["easy", "normal", "hard"].forEach((lvl) => {
+                    const btn = document.getElementById(`btn-${lvl}`);
+                    btn.classList.toggle("active", lvl === level);
+                });
+
+                resultBadge.classList.add("hidden");
+                updateProbabilitySummary();
+                drawWheel(currentRotation);
+            }
+
+            function updateProbabilitySummary() {
+                const counts = DIFFICULTY_LAYOUTS[currentDifficulty].counts;
+                const total = 16;
+                const wPct = Math.round((counts.words / total) * 100);
+                const fPct = Math.round((counts.flip / total) * 100);
+                const mPct = Math.round((counts.mime / total) * 100);
+
+                probSummary.innerHTML = `
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="w-3 h-3 rounded-full inline-block border border-black/30" style="background:#F9DF2B"></span>
+                        <strong>words:</strong> ${wPct}%
+                    </span>
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="w-3 h-3 rounded-full inline-block border border-black/30" style="background:#F9630B"></span>
+                        <strong>flip:</strong> ${fPct}%
+                    </span>
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="w-3 h-3 rounded-full inline-block border border-black/30" style="background:#FA61AA"></span>
+                        <strong>mime:</strong> ${mPct}%
+                    </span>
+                `;
+            }
+
+            function resizeAndDrawWheel() {
+                const maxSize = Math.min(window.innerWidth - 48, 350);
+                const size = Math.max(260, maxSize);
+                const dpr = window.devicePixelRatio || 1;
+
+                canvas.style.width = `${size}px`;
+                canvas.style.height = `${size}px`;
+                canvas.width = size * dpr;
+                canvas.height = size * dpr;
+
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                drawWheel(currentRotation, size);
+            }
+
+            function drawWheel(rotationAngle, logicalSize) {
+                const size =
+                    logicalSize || parseFloat(canvas.style.width) || 340;
+                const cx = size / 2;
+                const cy = size / 2;
+                const radius = cx - 4;
+                const segments = DIFFICULTY_LAYOUTS[currentDifficulty].segments;
+                const numSegments = segments.length;
+                const sliceAngle = (2 * Math.PI) / numSegments;
+
+                ctx.clearRect(0, 0, size, size);
+
+                for (let i = 0; i < numSegments; i++) {
+                    const typeKey = segments[i];
+                    const segInfo = SEGMENT_TYPES[typeKey];
+                    const startAngle = rotationAngle + i * sliceAngle;
+                    const endAngle = startAngle + sliceAngle;
+
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.arc(cx, cy, radius, startAngle, endAngle);
+                    ctx.closePath();
+                    ctx.fillStyle = segInfo.color;
+                    ctx.fill();
+
+                    ctx.lineWidth = 1.2;
+                    ctx.strokeStyle = "#1A1A1A";
+                    ctx.stroke();
+
+                    ctx.save();
+                    ctx.translate(cx, cy);
+                    ctx.rotate(startAngle + sliceAngle / 2);
+                    ctx.textAlign = "right";
+                    ctx.textBaseline = "middle";
+                    ctx.fillStyle = "#0D0D0D";
+                    const fontSize = Math.round(size * 0.068);
+                    ctx.font = `700 ${fontSize}px 'Oswald', 'Barlow Condensed', sans-serif`;
+                    ctx.fillText(segInfo.label, radius - 14, 0);
+                    ctx.restore();
+                }
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = "#1A1A1A";
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, 4, 0, 2 * Math.PI);
+                ctx.fillStyle = "#0D0D0D";
+                ctx.fill();
+            }
+
+            function spinWheel() {
+                if (isSpinning) return;
+                isSpinning = true;
+                spinBtn.disabled = true;
+                resultBadge.classList.add("hidden");
+                resultBadge.classList.remove("result-pop");
+
+                const fullSpins = 6 + Math.floor(Math.random() * 4);
+                const randomOffset = Math.random() * 2 * Math.PI;
+                const startRotation = currentRotation;
+                const targetRotation =
+                    startRotation + fullSpins * 2 * Math.PI + randomOffset;
+                const duration = 3400;
+                const startTime = performance.now();
+
+                function animate(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    currentRotation =
+                        startRotation +
+                        (targetRotation - startRotation) * easeOut;
+
+                    drawWheel(currentRotation);
+
+                    const currentSegIndex =
+                        getSegmentIndexUnderPointer(currentRotation);
+                    if (currentSegIndex !== lastTickIndex) {
+                        lastTickIndex = currentSegIndex;
+                        wheelPointer.classList.add("tick");
+                        setTimeout(
+                            () => wheelPointer.classList.remove("tick"),
+                            65,
+                        );
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        isSpinning = false;
+                        spinBtn.disabled = false;
+                        showLandedResult(currentRotation);
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            function getSegmentIndexUnderPointer(rotationAngle) {
+                const segments = DIFFICULTY_LAYOUTS[currentDifficulty].segments;
+                const numSegments = segments.length;
+                const sliceAngle = (2 * Math.PI) / numSegments;
+
+                const normalizedRot =
+                    ((rotationAngle % (2 * Math.PI)) + 2 * Math.PI) %
+                    (2 * Math.PI);
+                const pointerAngle =
+                    (1.5 * Math.PI - normalizedRot + 2 * Math.PI) %
+                    (2 * Math.PI);
+                return Math.floor(pointerAngle / sliceAngle) % numSegments;
+            }
+
+            function showLandedResult(rotationAngle) {
+                const segments = DIFFICULTY_LAYOUTS[currentDifficulty].segments;
+                const landedIndex = getSegmentIndexUnderPointer(rotationAngle);
+                const landedKey = segments[landedIndex];
+                const info = SEGMENT_TYPES[landedKey];
+
+                resultBadge.style.backgroundColor = info.color;
+                resultText.textContent = info.description;
+                resultBadge.classList.remove("hidden");
+                void resultBadge.offsetWidth;
+                resultBadge.classList.add("result-pop");
+            }
+
+            /* ==========================================================================
+               3. 15-SECOND TIMER LOGIC (START / STOP / RESTART)
+               ========================================================================== */
+            const TIMER_DURATION = 15.0; // seconds
+            const RING_CIRCUMFERENCE = 2 * Math.PI * 96; // 603.19
+            let remainingSeconds = TIMER_DURATION;
+            let timerInterval = null;
+            let timerRunning = false;
+            let lastTimestamp = null;
+
+            const timerDisplay = document.getElementById("timerDisplay");
+            const timerStatus = document.getElementById("timerStatus");
+            const timerRing = document.getElementById("timerProgressRing");
+            const timerStartBtn = document.getElementById("timerStartBtn");
+            const timerStopBtn = document.getElementById("timerStopBtn");
+
+            function updateTimerUI() {
+                timerDisplay.textContent = `${Math.max(0, remainingSeconds).toFixed(1)}s`;
+
+                const fraction = Math.max(0, remainingSeconds / TIMER_DURATION);
+                const offset = RING_CIRCUMFERENCE * (1 - fraction);
+                timerRing.style.strokeDashoffset = offset;
+
+                if (remainingSeconds <= 0) {
+                    timerRing.style.stroke = "#FA61AA";
+                } else if (remainingSeconds <= 5) {
+                    timerRing.style.stroke = "#F9630B";
+                } else {
+                    timerRing.style.stroke = "#F9DF2B";
+                }
+            }
+
+            function playTimeUpBeep() {
+                try {
+                    const AudioCtx =
+                        window.AudioContext || window.webkitAudioContext;
+                    const audioCtx = new AudioCtx();
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = "triangle";
+                    osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(
+                        660,
+                        audioCtx.currentTime + 0.14,
+                    );
+                    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(
+                        0.001,
+                        audioCtx.currentTime + 0.45,
+                    );
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.45);
+                } catch (e) {
+                    // Ignore audio errors if blocked by browser policy
+                }
+            }
+
+            function startTimer() {
+                if (timerRunning) return;
+                if (remainingSeconds <= 0) {
+                    remainingSeconds = TIMER_DURATION;
+                }
+
+                timerRunning = true;
+                lastTimestamp = performance.now();
+                timerStartBtn.disabled = true;
+                timerStopBtn.disabled = false;
+                timerStatus.textContent = "Running...";
+                timerStatus.classList.remove("text-[#FA61AA]");
+
+                timerInterval = setInterval(() => {
+                    const now = performance.now();
+                    const delta = (now - lastTimestamp) / 1000;
+                    lastTimestamp = now;
+                    remainingSeconds -= delta;
+
+                    if (remainingSeconds <= 0) {
+                        remainingSeconds = 0;
+                        updateTimerUI();
+                        clearInterval(timerInterval);
+                        timerRunning = false;
+                        timerStartBtn.disabled = false;
+                        timerStopBtn.disabled = true;
+                        timerStatus.textContent = "Time's up!";
+                        timerStatus.classList.add("text-[#FA61AA]");
+                        playTimeUpBeep();
+                    } else {
+                        updateTimerUI();
+                    }
+                }, 50);
+            }
+
+            function stopTimer() {
+                if (!timerRunning) return;
+                clearInterval(timerInterval);
+                timerRunning = false;
+                timerStartBtn.disabled = false;
+                timerStopBtn.disabled = true;
+                timerStatus.textContent = "Paused";
+            }
+
+            function restartTimer() {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                remainingSeconds = TIMER_DURATION;
+                timerStartBtn.disabled = false;
+                timerStopBtn.disabled = true;
+                timerStatus.textContent = "Ready";
+                timerStatus.classList.remove("text-[#FA61AA]");
+                updateTimerUI();
+            }
+
+            /* ==========================================================================
+               4. 70 SOFT SKILLS DICTIONARY DATA & SEARCH FILTER (TITLE + DEFINITION + EXAMPLE)
+               ========================================================================== */
+            const SOFT_SKILLS = [
+                {
+                    id: 1,
+                    title: "Communication",
+                    definition:
+                        "The ability to share ideas, information, thoughts and feelings clearly and effectively with others. Good communication involves choosing appropriate words, adapting your message to your audience and making sure that the information is correctly understood.",
+                    example:
+                        "During a team meeting, you explain the objectives of a new project and make sure everyone understands their responsibilities.",
+                },
+                {
+                    id: 2,
+                    title: "Active listening",
+                    definition:
+                        "The ability to pay full attention to someone when they are speaking, understand their message and respond appropriately. Active listening involves avoiding interruptions, asking relevant questions and showing genuine interest in what the other person is saying.",
+                    example:
+                        "A colleague explains a problem they are experiencing, and you listen carefully before asking questions and offering advice.",
+                },
+                {
+                    id: 3,
+                    title: "Teamwork",
+                    definition:
+                        "The ability to work effectively with other people to achieve a common goal. Teamwork involves sharing responsibilities, exchanging ideas, supporting colleagues and combining individual skills to improve the overall performance of a group.",
+                    example:
+                        "You work with your colleagues, divide responsibilities and support each other to complete a project before its deadline.",
+                },
+                {
+                    id: 4,
+                    title: "Creativity",
+                    definition:
+                        "The ability to imagine new ideas, explore different possibilities and develop original solutions. Creativity involves thinking beyond traditional methods, experimenting with different approaches and finding interesting ways to solve problems or improve existing processes.",
+                    example:
+                        "You suggest an original visual concept for an advertising campaign to help your company stand out from its competitors.",
+                },
+                {
+                    id: 5,
+                    title: "Adaptability",
+                    definition:
+                        "The ability to adjust to new situations, changing environments and unexpected challenges. Adaptability involves being open to new ideas, modifying your approach when necessary and remaining effective even when circumstances are different from what you originally expected.",
+                    example:
+                        "Your company introduces new software, and you quickly learn how to use it without significantly affecting your productivity.",
+                },
+                {
+                    id: 6,
+                    title: "Empathy",
+                    definition:
+                        "The ability to understand another person's feelings, experiences and perspectives. Empathy involves recognizing emotions, considering how others might feel in a particular situation and responding with sensitivity, understanding and appropriate support.",
+                    example:
+                        "You notice that a colleague is having a difficult day and offer to listen or help them with their workload.",
+                },
+                {
+                    id: 7,
+                    title: "Leadership",
+                    definition:
+                        "The ability to guide, motivate and inspire others to achieve a shared objective. Leadership involves providing clear direction, encouraging collaboration, making responsible decisions and helping team members develop their skills and reach their full potential.",
+                    example:
+                        "You guide your team through a challenging project, distribute responsibilities and encourage everyone to remain motivated.",
+                },
+                {
+                    id: 8,
+                    title: "Time management",
+                    definition:
+                        "The ability to organize and use your time efficiently to complete tasks and achieve objectives. Time management involves setting realistic deadlines, identifying priorities, avoiding unnecessary distractions and maintaining a balance between different responsibilities.",
+                    example:
+                        "You create a daily schedule to complete your important tasks while allowing enough time for meetings and unexpected requests.",
+                },
+                {
+                    id: 9,
+                    title: "Stress management",
+                    definition:
+                        "The ability to recognize and manage pressure in challenging situations. Stress management involves controlling your reactions, maintaining focus, identifying sources of stress and using appropriate strategies to protect your well-being and continue working effectively.",
+                    example:
+                        "You receive several urgent requests at the same time but remain calm, organize your tasks and complete them one by one.",
+                },
+                {
+                    id: 10,
+                    title: "Problem-solving",
+                    definition:
+                        "The ability to identify difficulties, understand their causes and develop effective solutions. Problem-solving involves gathering relevant information, exploring different options, evaluating possible consequences and choosing an appropriate action to resolve a situation.",
+                    example:
+                        "A customer receives the wrong order, and you investigate the situation before offering a suitable replacement.",
+                },
+                {
+                    id: 11,
+                    title: "Critical thinking",
+                    definition:
+                        "The ability to examine information objectively before forming an opinion or making a decision. Critical thinking involves questioning assumptions, checking the reliability of information, considering different perspectives and using logical reasoning to reach well-supported conclusions.",
+                    example:
+                        "Before accepting a proposed strategy, you examine the available information and evaluate its advantages and disadvantages.",
+                },
+                {
+                    id: 12,
+                    title: "Decision-making",
+                    definition:
+                        "The ability to choose an appropriate course of action after considering different possibilities. Decision-making involves analyzing available information, evaluating risks and benefits, considering potential consequences and taking responsibility for the final choice.",
+                    example:
+                        "You compare three suppliers based on their prices, quality and delivery times before selecting the most suitable one.",
+                },
+                {
+                    id: 13,
+                    title: "Patience",
+                    definition:
+                        "The ability to remain calm and understanding when facing delays, difficulties or frustrating situations. Patience involves accepting that some tasks require time, controlling negative reactions and allowing others to learn or progress at their own pace.",
+                    example:
+                        "You calmly explain a procedure several times to a new employee until they feel comfortable completing it independently.",
+                },
+                {
+                    id: 14,
+                    title: "Self-confidence",
+                    definition:
+                        "The ability to trust your own skills, knowledge and judgment. Self-confidence involves recognizing your strengths, expressing your ideas without excessive fear and approaching challenges with a positive attitude while remaining aware of your limitations.",
+                    example:
+                        "You confidently present your ideas during a meeting, even when speaking in front of experienced colleagues.",
+                },
+                {
+                    id: 15,
+                    title: "Autonomy",
+                    definition:
+                        "The ability to manage your work and responsibilities without requiring constant supervision or assistance. Autonomy involves organizing your tasks, finding necessary information, making appropriate decisions and recognizing when additional support is needed.",
+                    example:
+                        "Your manager assigns you a project, and you independently organize the different steps needed to complete it.",
+                },
+                {
+                    id: 16,
+                    title: "Organization",
+                    definition:
+                        "The ability to structure tasks, information, materials and responsibilities in a clear and efficient way. Organization involves creating effective systems, keeping resources accessible and managing different activities to reduce confusion and improve productivity.",
+                    example:
+                        "You organize your digital files into clearly named folders and maintain an updated list of your ongoing projects.",
+                },
+                {
+                    id: 17,
+                    title: "Flexibility",
+                    definition:
+                        "The ability to modify your plans, methods or working habits according to changing circumstances. Flexibility involves accepting alternative approaches, adjusting your priorities when necessary and remaining willing to make compromises without losing sight of your objectives.",
+                    example:
+                        "An important meeting is cancelled, so you reorganize your schedule and use the available time to complete another task.",
+                },
+                {
+                    id: 18,
+                    title: "Curiosity",
+                    definition:
+                        "The desire to discover, understand and learn about new subjects, ideas or experiences. Curiosity involves asking questions, exploring unfamiliar topics, seeking additional information and showing an active interest in opportunities for personal and professional development.",
+                    example:
+                        "You ask colleagues from another department about their responsibilities to better understand how the company operates.",
+                },
+                {
+                    id: 19,
+                    title: "Motivation",
+                    definition:
+                        "The internal or external drive that encourages a person to take action and achieve specific goals. Motivation involves maintaining enthusiasm, investing effort in your responsibilities and continuing to work towards an objective even when tasks become challenging.",
+                    example:
+                        "You actively contribute to a project because you are interested in its success and want to improve your professional skills.",
+                },
+                {
+                    id: 20,
+                    title: "Responsibility",
+                    definition:
+                        "The ability to take ownership of your duties, decisions and actions. Responsibility involves respecting commitments, understanding the consequences of your behavior, completing assigned tasks carefully and accepting accountability when mistakes or difficulties occur.",
+                    example:
+                        "You discover that you made an error in a document, inform your manager and take the necessary steps to correct it.",
+                },
+                {
+                    id: 21,
+                    title: "Reliability",
+                    definition:
+                        "The ability to consistently fulfill commitments and complete responsibilities in a trustworthy manner. Reliability involves respecting deadlines, maintaining a consistent quality of work and ensuring that other people can depend on you in both everyday and challenging situations.",
+                    example:
+                        "You deliver an important document on the agreed date, allowing your colleagues to continue their work without delays.",
+                },
+                {
+                    id: 22,
+                    title: "Punctuality",
+                    definition:
+                        "The ability to respect agreed schedules, appointments and deadlines. Punctuality demonstrates consideration for other people's time, effective personal organization and a professional attitude towards commitments and responsibilities.",
+                    example:
+                        "You arrive a few minutes before an important meeting to prepare your documents and ensure the meeting can begin on time.",
+                },
+                {
+                    id: 23,
+                    title: "Respect",
+                    definition:
+                        "The ability to recognize and appreciate the rights, opinions, feelings and differences of other people. Respect involves behaving politely, listening without judgment, accepting personal boundaries and treating everyone with consideration, regardless of their position or background.",
+                    example:
+                        "During a discussion, you allow a colleague to express their opinion without interrupting, even though you disagree with them.",
+                },
+                {
+                    id: 24,
+                    title: "Honesty",
+                    definition:
+                        "The ability to communicate truthfully and behave sincerely in different situations. Honesty involves providing accurate information, admitting mistakes, avoiding misleading behavior and maintaining transparency to build trustworthy professional relationships.",
+                    example:
+                        "You inform your manager about a mistake you made instead of hiding it or blaming another colleague.",
+                },
+                {
+                    id: 25,
+                    title: "Diplomacy",
+                    definition:
+                        "The ability to communicate and manage sensitive situations with tact, consideration and professionalism. Diplomacy involves choosing appropriate words, understanding different perspectives and addressing disagreements or difficult subjects without creating unnecessary tension or offending others.",
+                    example:
+                        "You explain to a colleague that their work needs improvement while recognizing their efforts and suggesting positive solutions.",
+                },
+                {
+                    id: 26,
+                    title: "Negotiation",
+                    definition:
+                        "The ability to discuss different needs, expectations and proposals to reach a mutually acceptable agreement. Negotiation involves listening carefully, presenting clear arguments, identifying common interests and finding compromises that satisfy the people involved.",
+                    example:
+                        "You discuss prices and delivery conditions with a supplier to find an agreement that benefits both companies.",
+                },
+                {
+                    id: 27,
+                    title: "Conflict management",
+                    definition:
+                        "The ability to identify, address and resolve disagreements in a constructive manner. Conflict management involves understanding the causes of a conflict, listening to different perspectives, controlling emotions and helping the people involved find a fair and effective solution.",
+                    example:
+                        "Two colleagues disagree about their responsibilities, and you help them discuss the situation and find a solution together.",
+                },
+                {
+                    id: 28,
+                    title: "Emotional intelligence",
+                    definition:
+                        "The ability to recognize, understand and manage your own emotions while identifying and responding appropriately to the emotions of others. Emotional intelligence helps improve communication, strengthen relationships and manage challenging interpersonal situations with greater awareness and sensitivity.",
+                    example:
+                        "You notice that a colleague is frustrated during a discussion and adapt your communication to avoid increasing the tension.",
+                },
+                {
+                    id: 29,
+                    title: "Self-control",
+                    definition:
+                        "The ability to manage your emotions, impulses and reactions, particularly in difficult or frustrating situations. Self-control involves thinking before acting, maintaining appropriate behavior and responding calmly rather than allowing immediate emotions to influence your decisions.",
+                    example:
+                        "An angry customer speaks to you disrespectfully, but you remain calm, professional and focused on resolving their problem.",
+                },
+                {
+                    id: 30,
+                    title: "Resilience",
+                    definition:
+                        "The ability to recover from difficulties, setbacks or failures and continue moving forward. Resilience involves adapting to challenging circumstances, learning from negative experiences and maintaining the emotional strength needed to overcome obstacles and rebuild confidence.",
+                    example:
+                        "After a project fails, you analyze what went wrong, learn from your mistakes and apply those lessons to your next project.",
+                },
+                {
+                    id: 31,
+                    title: "Perseverance",
+                    definition:
+                        "The ability to continue working towards an objective despite difficulties, obstacles or repeated failures. Perseverance involves maintaining effort, staying determined and exploring alternative approaches instead of giving up when immediate results are not achieved.",
+                    example:
+                        "You continue testing different solutions to a technical problem until you find one that works.",
+                },
+                {
+                    id: 32,
+                    title: "Initiative",
+                    definition:
+                        "The ability to recognize opportunities for action and take appropriate steps without waiting for instructions. Initiative involves identifying improvements, suggesting ideas and voluntarily taking responsibility for activities that can benefit a team or organization.",
+                    example:
+                        "You notice that your team frequently loses important documents and propose a new system to organize shared files.",
+                },
+                {
+                    id: 33,
+                    title: "Open-mindedness",
+                    definition:
+                        "The ability to consider unfamiliar ideas, different opinions and alternative perspectives without immediately rejecting them. Open-mindedness involves questioning personal assumptions, accepting that others may have valuable insights and being willing to change your opinion when presented with new information.",
+                    example:
+                        "A colleague proposes a different working method, and you agree to test it before deciding whether it is effective.",
+                },
+                {
+                    id: 34,
+                    title: "Cooperation",
+                    definition:
+                        "The ability to work constructively with others by sharing information, resources and responsibilities. Cooperation involves being willing to help, coordinating individual efforts and maintaining positive relationships to support the achievement of shared objectives.",
+                    example:
+                        "You provide another department with useful information and assistance to help them complete an important assignment.",
+                },
+                {
+                    id: 35,
+                    title: "Assertiveness",
+                    definition:
+                        "The ability to express your opinions, needs, feelings and boundaries clearly and confidently while respecting others. Assertiveness involves communicating directly without becoming aggressive, defending your position when necessary and maintaining balanced professional relationships.",
+                    example:
+                        "You explain to your manager that your current workload is too heavy and ask to discuss which tasks should be prioritized.",
+                },
+                {
+                    id: 36,
+                    title: "Persuasion",
+                    definition:
+                        "The ability to influence someone's opinion or decision through clear, relevant and convincing arguments. Persuasion involves understanding your audience, presenting meaningful benefits and communicating ideas effectively while respecting other people's freedom to make their own decisions.",
+                    example:
+                        "You present the advantages of a new working method to encourage your team to adopt it.",
+                },
+                {
+                    id: 37,
+                    title: "Attention to detail",
+                    definition:
+                        "The ability to notice small but significant elements that may affect the quality or accuracy of a task. Attention to detail involves carefully reviewing information, identifying errors, maintaining precision and ensuring that work meets the expected standards.",
+                    example:
+                        "Before sending a document to a client, you identify and correct several spelling mistakes and incorrect figures.",
+                },
+                {
+                    id: 38,
+                    title: "Concentration",
+                    definition:
+                        "The ability to maintain mental focus on a specific task or activity for a period of time. Concentration involves managing distractions, directing your attention towards relevant information and maintaining the level of focus necessary to produce accurate and effective work.",
+                    example:
+                        "You turn off unnecessary notifications and focus entirely on completing an important report.",
+                },
+                {
+                    id: 39,
+                    title: "Observation",
+                    definition:
+                        "The ability to carefully notice and interpret details, behaviors and changes in your environment. Observation involves paying attention to what happens around you, recognizing patterns and identifying useful information that may otherwise go unnoticed.",
+                    example:
+                        "You notice that several customers struggle to find the same product and suggest improving the signs in the store.",
+                },
+                {
+                    id: 40,
+                    title: "Planning",
+                    definition:
+                        "The ability to prepare activities and organize the steps required to achieve a future objective. Planning involves defining goals, identifying necessary resources, estimating time requirements and anticipating potential difficulties before beginning a task or project.",
+                    example:
+                        "Before starting a project, you create a schedule that includes important tasks, deadlines and team responsibilities.",
+                },
+                {
+                    id: 41,
+                    title: "Prioritization",
+                    definition:
+                        "The ability to determine which tasks or responsibilities require the most immediate attention. Prioritization involves evaluating urgency, importance and potential impact to organize your workload effectively and ensure that essential objectives are achieved first.",
+                    example:
+                        "You complete an urgent customer request before responding to routine emails that can wait until later.",
+                },
+                {
+                    id: 42,
+                    title: "Delegation",
+                    definition:
+                        "The ability to assign tasks and responsibilities to other people according to their skills, availability and experience. Delegation involves communicating clear expectations, providing appropriate resources and trusting others to complete their assigned work while remaining available for support.",
+                    example:
+                        "You distribute project tasks among team members based on their individual strengths and areas of expertise.",
+                },
+                {
+                    id: 43,
+                    title: "Professionalism",
+                    definition:
+                        "The ability to behave in a responsible, respectful and appropriate manner within a professional environment. Professionalism involves maintaining high standards of work, respecting commitments, communicating appropriately and demonstrating integrity when interacting with colleagues, managers and customers.",
+                    example:
+                        "You remain polite, helpful and respectful when dealing with an unhappy customer, even during a particularly busy day.",
+                },
+                {
+                    id: 44,
+                    title: "Discretion",
+                    definition:
+                        "The ability to handle sensitive information and situations with care and confidentiality. Discretion involves understanding what information should remain private, avoiding inappropriate discussions and exercising good judgment when communicating personal or professional matters.",
+                    example:
+                        "You receive confidential information about a colleague and avoid sharing it with people who are not authorized to know.",
+                },
+                {
+                    id: 45,
+                    title: "Kindness",
+                    definition:
+                        "The ability to treat others with care, consideration and generosity. Kindness involves recognizing other people's needs, offering appropriate support and contributing to a positive environment through thoughtful actions and respectful communication.",
+                    example:
+                        "You welcome a new employee, introduce them to the team and offer to help them understand their new responsibilities.",
+                },
+                {
+                    id: 46,
+                    title: "Optimism",
+                    definition:
+                        "The ability to maintain a positive and hopeful attitude towards situations, including challenging circumstances. Optimism involves recognizing opportunities, believing that improvements are possible and focusing on constructive solutions without ignoring existing difficulties or risks.",
+                    example:
+                        "Your team experiences a setback, but you encourage everyone to identify what can still be achieved.",
+                },
+                {
+                    id: 47,
+                    title: "Humility",
+                    definition:
+                        "The ability to recognize your own limitations, acknowledge your mistakes and appreciate the knowledge and contributions of others. Humility involves remaining open to learning, accepting assistance when necessary and avoiding an exaggerated sense of personal importance.",
+                    example:
+                        "You admit that you are unfamiliar with a particular task and ask a more experienced colleague for advice.",
+                },
+                {
+                    id: 48,
+                    title: "Courage",
+                    definition:
+                        "The ability to face difficult, uncomfortable or uncertain situations despite feelings of fear or hesitation. Courage involves taking appropriate action, defending important values and expressing concerns when necessary, even when doing so requires personal effort or confidence.",
+                    example:
+                        "You raise an important concern during a meeting, even though you feel nervous about how others might react.",
+                },
+                {
+                    id: 49,
+                    title: "Independence",
+                    definition:
+                        "The ability to think, make decisions and act using your own judgment without depending excessively on others. Independence involves developing personal confidence, evaluating situations objectively and taking ownership of your choices while recognizing when collaboration is necessary.",
+                    example:
+                        "You evaluate several possible approaches to a task and independently choose the method that best meets its objectives.",
+                },
+                {
+                    id: 50,
+                    title: "Self-discipline",
+                    definition:
+                        "The ability to control your behavior and maintain consistent effort towards your commitments and objectives. Self-discipline involves resisting distractions, following established routines and completing necessary tasks even when motivation is low or other activities seem more appealing.",
+                    example:
+                        "You follow your work schedule and complete your assigned tasks despite feeling tempted to spend time on social media.",
+                },
+                {
+                    id: 51,
+                    title: "Tolerance",
+                    definition:
+                        "The ability to accept and respect differences in people's opinions, beliefs, cultures and behaviors. Tolerance involves avoiding unfair judgments, recognizing that people have different experiences and maintaining respectful relationships even when personal viewpoints or preferences are not shared.",
+                    example:
+                        "You work respectfully with colleagues who have different cultural backgrounds, traditions and personal beliefs.",
+                },
+                {
+                    id: 52,
+                    title: "Generosity",
+                    definition:
+                        "The willingness to share your time, knowledge, skills or resources to benefit others. Generosity involves offering assistance without necessarily expecting something in return and contributing to an environment where people feel supported and encouraged.",
+                    example:
+                        "You take time out of your working day to help a colleague understand a new digital tool.",
+                },
+                {
+                    id: 53,
+                    title: "Sociability",
+                    definition:
+                        "The ability to interact comfortably and positively with other people in different social and professional situations. Sociability involves initiating conversations, building relationships, participating in group activities and creating opportunities for meaningful exchanges with others.",
+                    example:
+                        "During a company event, you introduce yourself to new colleagues and naturally start conversations with them.",
+                },
+                {
+                    id: 54,
+                    title: "Sense of humor",
+                    definition:
+                        "The ability to recognize and use humor appropriately to create positive interactions and reduce tension. A good sense of humor involves understanding the context, respecting other people's sensitivities and using lighthearted communication without making others feel uncomfortable or excluded.",
+                    example:
+                        "During a stressful working day, you make a friendly and appropriate joke that helps your colleagues relax.",
+                },
+                {
+                    id: 55,
+                    title: "Public speaking",
+                    definition:
+                        "The ability to communicate information clearly, confidently and effectively in front of an audience. Public speaking involves organizing ideas, using an appropriate tone of voice, maintaining audience engagement and adapting your presentation to the needs and expectations of listeners.",
+                    example:
+                        "You present the company's annual results to a group of employees using clear explanations and visual materials.",
+                },
+                {
+                    id: 56,
+                    title: "Non-verbal communication",
+                    definition:
+                        "The ability to express and interpret messages through body language, facial expressions, gestures, posture and eye contact. Non-verbal communication helps reinforce spoken messages, communicate emotions and better understand other people's attitudes without relying entirely on words.",
+                    example:
+                        "During a meeting, you maintain an attentive posture and nod to show that you are listening to your colleague.",
+                },
+                {
+                    id: 57,
+                    title: "Constructive feedback",
+                    definition:
+                        "The ability to provide clear, respectful and useful observations that help someone improve their performance. Constructive feedback involves recognizing strengths, identifying specific areas for improvement and suggesting practical solutions rather than simply criticizing someone's work.",
+                    example:
+                        "You review a colleague's presentation, highlight its strengths and suggest ways to make the information clearer.",
+                },
+                {
+                    id: 58,
+                    title: "Acceptance of feedback",
+                    definition:
+                        "The ability to receive comments, suggestions and criticism with an open and constructive attitude. Acceptance of feedback involves listening without becoming defensive, considering the relevance of the information and using valuable advice to improve your skills, behavior or performance.",
+                    example:
+                        "Your manager suggests improvements to your work, and you apply their advice to produce a better version.",
+                },
+                {
+                    id: 59,
+                    title: "Learning ability",
+                    definition:
+                        "The ability to acquire, understand, retain and apply new knowledge or skills. Learning ability involves remaining curious, adapting learning methods, practicing unfamiliar activities and using previous experiences to develop greater competence in different situations.",
+                    example:
+                        "You attend a training session about new software and successfully apply what you learned to your daily responsibilities.",
+                },
+                {
+                    id: 60,
+                    title: "Innovation",
+                    definition:
+                        "The ability to transform new ideas into practical improvements, products, services or working methods. Innovation involves identifying opportunities, experimenting with solutions and implementing meaningful changes that create value or improve the effectiveness of existing processes.",
+                    example:
+                        "You introduce an automated digital process that reduces repetitive tasks and helps your team save time.",
+                },
+                {
+                    id: 61,
+                    title: "Proactivity",
+                    definition:
+                        "The ability to anticipate future needs, opportunities or problems and take action before they become urgent. Proactivity involves thinking ahead, identifying potential difficulties and implementing preventive measures rather than simply reacting when situations arise.",
+                    example:
+                        "You regularly monitor stock levels and order additional products before supplies become insufficient.",
+                },
+                {
+                    id: 62,
+                    title: "Analytical thinking",
+                    definition:
+                        "The ability to examine complex information by breaking it down into smaller, more manageable elements. Analytical thinking involves identifying patterns, understanding relationships, interpreting data and using logical reasoning to explain situations or support effective decisions.",
+                    example:
+                        "You analyze monthly sales figures to identify the reasons behind a decrease in customer purchases.",
+                },
+                {
+                    id: 63,
+                    title: "Strategic thinking",
+                    definition:
+                        "The ability to consider long-term objectives and understand how present decisions may influence future outcomes. Strategic thinking involves evaluating opportunities, anticipating challenges, considering available resources and developing approaches that support the overall direction of an organization.",
+                    example:
+                        "You develop a marketing strategy designed to increase customer engagement and strengthen the company's position over the next year.",
+                },
+                {
+                    id: 64,
+                    title: "Resourcefulness",
+                    definition:
+                        "The ability to find practical and effective solutions using the resources that are available. Resourcefulness involves adapting to limitations, thinking creatively and identifying alternative methods when traditional tools, information or assistance are unavailable.",
+                    example:
+                        "Your printer stops working before an important meeting, so you prepare a digital version of the documents instead.",
+                },
+                {
+                    id: 65,
+                    title: "Versatility",
+                    definition:
+                        "The ability to perform different types of tasks and adapt your skills to various responsibilities. Versatility involves being comfortable with different activities, learning unfamiliar methods and contributing effectively in multiple areas of a professional environment.",
+                    example:
+                        "You manage social media content, respond to customer emails and assist with the organization of a company event.",
+                },
+                {
+                    id: 66,
+                    title: "Commitment",
+                    definition:
+                        "The ability to remain dedicated to a responsibility, objective or organization over time. Commitment involves investing consistent effort, respecting agreements and maintaining involvement even when difficulties arise or immediate results are not visible.",
+                    example:
+                        "You remain actively involved in a long-term team project and continue supporting its development until it is completed.",
+                },
+                {
+                    id: 67,
+                    title: "Fairness",
+                    definition:
+                        "The ability to treat people and evaluate situations in an impartial, reasonable and equitable manner. Fairness involves avoiding favoritism, considering relevant circumstances and making decisions based on consistent principles while respecting individual needs and rights.",
+                    example:
+                        "You select team members for a project based on relevant skills and experience rather than personal preferences.",
+                },
+                {
+                    id: 68,
+                    title: "Customer orientation",
+                    definition:
+                        "The ability to understand customers' needs, expectations and concerns and respond with appropriate solutions. Customer orientation involves listening carefully, providing helpful information and prioritizing customer satisfaction while respecting the objectives and policies of the organization.",
+                    example:
+                        "You ask a customer about their specific needs before recommending the product that best matches their expectations.",
+                },
+                {
+                    id: 69,
+                    title: "Risk management",
+                    definition:
+                        "The ability to identify, evaluate and reduce potential threats that could negatively affect a task, project or organization. Risk management involves anticipating difficulties, assessing their likelihood and impact, and preparing appropriate measures to prevent or limit negative consequences.",
+                    example:
+                        "Before organizing an outdoor company event, you check the weather forecast and prepare an indoor alternative in case of rain.",
+                },
+                {
+                    id: 70,
+                    title: "Consensus-building",
+                    definition:
+                        "The ability to help people with different opinions, interests or expectations reach a shared agreement. Consensus-building involves encouraging open discussion, identifying common objectives, considering everyone's concerns and developing solutions that the people involved can collectively support.",
+                    example:
+                        "During a team meeting, you help colleagues discuss their different proposals and develop a solution that everyone can accept.",
+                },
+            ];
+
+            const TITLE_COLORS = ["#F9630B", "#FA61AA"];
+
+            function renderSkills(skillsToRender) {
+                const listContainer = document.getElementById("skillsList");
+                const noResults = document.getElementById("noResultsMessage");
+                const countLabel = document.getElementById("skillsCount");
+
+                countLabel.textContent = `Showing ${skillsToRender.length} of ${SOFT_SKILLS.length} skills`;
+
+                if (skillsToRender.length === 0) {
+                    listContainer.innerHTML = "";
+                    noResults.classList.remove("hidden");
+                    return;
+                }
+
+                noResults.classList.add("hidden");
+
+                listContainer.innerHTML = skillsToRender
+                    .map((skill, index) => {
+                        const titleColor =
+                            TITLE_COLORS[index % TITLE_COLORS.length];
+                        return `
+          <article class="skill-item transition-transform duration-150">
+            <h2 class="font-display font-bold text-2xl sm:text-[1.75rem] leading-tight mb-1" style="color: ${titleColor};">
+              ${skill.title}
+            </h2>
+            <p class="font-condensed text-lg sm:text-[1.25rem] text-[#1A1A1A] leading-snug mb-1">
+              <strong>Definition:</strong> ${skill.definition}
+            </p>
+            <p class="font-condensed text-lg sm:text-[1.25rem] text-[#3F3F46] leading-snug">
+              <strong>Example:</strong> ${skill.example}
+            </p>
+          </article>
+        `;
+                    })
+                    .join("");
+            }
+
+            function filterSkills() {
+                const query = document
+                    .getElementById("skillSearchInput")
+                    .value.trim()
+                    .toLowerCase();
+                if (!query) {
+                    renderSkills(SOFT_SKILLS);
+                    return;
+                }
+
+                const filtered = SOFT_SKILLS.filter(
+                    (skill) =>
+                        skill.title.toLowerCase().includes(query) ||
+                        skill.definition.toLowerCase().includes(query) ||
+                        skill.example.toLowerCase().includes(query),
+                );
+                renderSkills(filtered);
+            }
+
+            function resetSearch() {
+                const input = document.getElementById("skillSearchInput");
+                input.value = "";
+                renderSkills(SOFT_SKILLS);
+                input.focus();
+            }
+
+            /* ==========================================================================
+               5. LEGAL NOTICE MODAL CONTROLS
+               ========================================================================== */
+            function openLegalModal() {
+                const modal = document.getElementById("legalModal");
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+
+            function closeLegalModal() {
+                const modal = document.getElementById("legalModal");
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }
+
+            document
+                .getElementById("legalModal")
+                .addEventListener("click", function (e) {
+                    if (e.target === this) {
+                        closeLegalModal();
+                    }
+                });
+
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") {
+                    closeLegalModal();
+                }
+            });
+
+            /* ==========================================================================
+               6. INITIALIZATION ON PAGE LOAD
+               ========================================================================== */
+            window.addEventListener("resize", resizeAndDrawWheel);
+            window.onload = function () {
+                updateProbabilitySummary();
+                resizeAndDrawWheel();
+                renderSkills(SOFT_SKILLS);
+                updateTimerUI();
+            };
+        </script>
+    </body>
+</html>

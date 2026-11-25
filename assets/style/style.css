@@ -1,0 +1,243 @@
+:root {
+    --yellow: #fbd92a;
+    --orange: #fa6404;
+    --pink: #fa61aa;
+    --green: #73f866;
+    --black: #0d0d0d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Barlow Condensed", "Inter", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.font-display {
+    font-family: "Oswald", "Barlow Condensed", sans-serif;
+}
+
+.font-condensed {
+    font-family: "Barlow Condensed", sans-serif;
+}
+
+/* Header Styling */
+.top-header {
+    background-color: var(--yellow);
+    height: 72px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.nav-link {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--black);
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+    transition:
+        border-color 0.2s ease,
+        opacity 0.2s ease;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    opacity: 0.75;
+}
+
+.nav-link.active {
+    border-bottom: 2px solid var(--black);
+    font-weight: 600;
+}
+
+/* Difficulty Buttons */
+.diff-btn {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--black);
+    border-radius: 9999px;
+    padding: 0.55rem 2.25rem;
+    min-width: 145px;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+    user-select: none;
+}
+
+.diff-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.diff-btn.active {
+    border-color: var(--black);
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+    font-weight: 700;
+}
+
+.diff-easy {
+    background-color: var(--yellow);
+}
+
+.diff-normal {
+    background-color: var(--orange);
+}
+
+.diff-hard {
+    background-color: var(--pink);
+}
+
+/* Spin Button */
+.spin-btn {
+    background-color: var(--green);
+    color: var(--black);
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 0.75rem 3.5rem;
+    width: 100%;
+    max-width: 440px;
+    border: none;
+    cursor: pointer;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        filter 0.18s ease;
+    box-shadow: 0 4px 12px rgba(115, 248, 102, 0.35);
+}
+
+.spin-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: brightness(0.97);
+    box-shadow: 0 8px 20px rgba(115, 248, 102, 0.5);
+}
+
+.spin-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.spin-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* Wheel Pointer & Canvas */
+.wheel-stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.wheel-pointer {
+    width: 0;
+    height: 0;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 28px solid var(--black);
+    margin-bottom: -10px;
+    z-index: 20;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+    transform-origin: top center;
+    transition: transform 0.08s ease;
+}
+
+.wheel-pointer.tick {
+    transform: rotate(-10deg);
+}
+
+#wheelCanvas {
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Result Badge Animation */
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.85) translateY(8px);
+    }
+    70% {
+        transform: scale(1.04) translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.result-pop {
+    animation: popIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Dictionary Search Bar */
+.search-input-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.search-input {
+    width: 100%;
+    height: 54px;
+    border-radius: 9999px;
+    border: 1.5px solid #525252;
+    padding: 0 3.25rem 0 1.75rem;
+    font-family: "Barlow Condensed", "Inter", sans-serif;
+    font-size: 1.3rem;
+    color: var(--black);
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+    border-color: var(--black);
+    box-shadow: 0 0 0 3px rgba(249, 223, 43, 0.45);
+}
+
+.search-icon {
+    position: absolute;
+    right: 1.35rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--black);
+}
+
+/* Footer */
+.bottom-footer {
+    background-color: var(--pink);
+    width: 100%;
+    min-height: 52px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    padding: 0.65rem 2rem;
+}
