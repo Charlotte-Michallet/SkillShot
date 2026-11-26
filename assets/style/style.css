@@ -1,0 +1,279 @@
+:root {
+    --brand-yellow: #f9df2b;
+    --brand-orange: #f9630b;
+    --brand-pink: #fa61aa;
+    --brand-green: #68f957;
+    --brand-dark: #0d0d0d;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #ffffff;
+    color: var(--brand-dark);
+    font-family: "Barlow Condensed", sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding-bottom: 76px;
+}
+
+.font-display {
+    font-family: "Oswald", "Barlow Condensed", sans-serif;
+}
+
+.font-condensed {
+    font-family: "Barlow Condensed", sans-serif;
+}
+
+/* Top Yellow Header */
+.top-header {
+    background-color: var(--brand-yellow);
+    min-height: 70px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.nav-link {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--brand-dark);
+    cursor: pointer;
+    padding: 4px 2px;
+    border-bottom: 2.5px solid transparent;
+    transition:
+        opacity 0.15s ease,
+        border-color 0.15s ease;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    opacity: 0.75;
+}
+
+.nav-link.active {
+    font-weight: 700;
+    border-bottom-color: var(--brand-dark);
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 2px;
+}
+
+/* Difficulty Pill Buttons */
+.diff-btn {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--brand-dark);
+    padding: 8px 36px;
+    border-radius: 9999px;
+    border: 2.5px solid transparent;
+    cursor: pointer;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.diff-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.diff-easy {
+    background-color: var(--brand-yellow);
+}
+
+.diff-normal {
+    background-color: var(--brand-orange);
+}
+
+.diff-hard {
+    background-color: var(--brand-pink);
+}
+
+.diff-btn.active {
+    border-color: var(--brand-dark);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    transform: scale(1.04);
+}
+
+/* Wheel Stage & Pointer */
+.wheel-stage {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 12px;
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 24px solid var(--brand-dark);
+    z-index: 20;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+    transition: transform 0.06s ease;
+}
+
+.wheel-pointer.tick {
+    transform: translateX(-50%) rotate(-12deg);
+}
+
+#wheelCanvas {
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    display: block;
+}
+
+/* Green Spin Button */
+.spin-btn {
+    background-color: var(--brand-green);
+    color: var(--brand-dark);
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.65rem;
+    font-weight: 600;
+    padding: 11px 24px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.spin-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+}
+
+.spin-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.spin-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.result-pop {
+    animation: popIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Dictionary Search Bar */
+.search-input-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 660px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 48px 12px 22px;
+    border-radius: 9999px;
+    border: 1.5px solid #525252;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.2rem;
+    color: var(--brand-dark);
+    background-color: #ffffff;
+    outline: none;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.search-input:focus {
+    border-color: var(--brand-dark);
+    box-shadow: 0 0 0 3px rgba(249, 223, 43, 0.45);
+}
+
+.search-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #262626;
+    pointer-events: none;
+}
+
+/* Sticky Pink Footer */
+.bottom-footer {
+    background-color: var(--brand-pink);
+    width: 100%;
+    padding: 10px 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 40;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+    .top-header {
+        min-height: 58px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+    .nav-link {
+        font-size: 1.15rem;
+    }
+    .diff-btn {
+        padding: 6px 18px;
+        font-size: 1.1rem;
+    }
+    .spin-btn {
+        font-size: 1.35rem;
+        padding: 10px 18px;
+        max-width: 300px;
+    }
+    #resultText {
+        font-size: 1.1rem !important;
+    }
+    .bottom-footer {
+        padding: 8px 14px;
+    }
+}
