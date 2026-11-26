@@ -52,7 +52,7 @@ main {
 
 .nav-link {
     font-family: "Barlow Condensed", sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 500;
     color: var(--brand-dark);
     cursor: pointer;
@@ -240,6 +240,148 @@ main {
     pointer-events: none;
 }
 
+/* Custom Cards Form & Filters */
+.card-form {
+    background-color: #fafafa;
+    border: 2px solid #0d0d0d;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.card-field {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1.5px solid #737373;
+    background-color: #ffffff;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.15rem;
+    color: #0d0d0d;
+    outline: none;
+}
+
+.card-field:focus {
+    border-color: #0d0d0d;
+    box-shadow: 0 0 0 3px rgba(249, 223, 43, 0.45);
+}
+
+.filter-pill {
+    padding: 5px 14px;
+    border-radius: 9999px;
+    border: 1.5px solid #0d0d0d;
+    background-color: #ffffff;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #0d0d0d;
+    cursor: pointer;
+}
+
+.filter-pill.active {
+    background-color: #f9df2b;
+}
+
+/* SkillShot Card Style — Exact Recto & Full-Fit Verso */
+.skillshot-card {
+    position: relative;
+    width: 100%;
+    min-height: 245px;
+    background-color: var(--brand-yellow);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.15s ease;
+    display: flex;
+}
+
+.skillshot-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Recto: exactement comme Recto carte.png */
+.card-front {
+    position: relative;
+    width: 100%;
+    min-height: 245px;
+    background-color: var(--brand-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-front-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.card-front-logo {
+    position: relative;
+    z-index: 2;
+    padding: 16px;
+}
+
+/* Verso: texte complet sans coupe + bande orange festonnée à droite */
+.card-back {
+    position: relative;
+    width: 100%;
+    min-height: 245px;
+    display: flex;
+    align-items: stretch;
+    background-color: var(--brand-yellow);
+}
+
+.card-back-main {
+    flex: 1;
+    padding: 18px 16px 18px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    z-index: 2;
+}
+
+.card-back-title {
+    font-family: "Oswald", "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 1.9rem;
+    line-height: 1.05;
+    color: var(--brand-orange);
+    margin: 0;
+}
+
+.card-back-block {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.04rem;
+    line-height: 1.22;
+    color: var(--brand-orange);
+    margin: 0;
+    overflow-wrap: break-word;
+}
+
+.card-back-block strong {
+    display: block;
+    font-weight: 700;
+    font-size: 1.12rem;
+    line-height: 1.15;
+    color: var(--brand-orange);
+    margin-bottom: 1px;
+}
+
+.card-back-side {
+    position: relative;
+    width: 68px;
+    flex-shrink: 0;
+}
+
+.card-back-side svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
 /* Sticky Pink Footer */
 .bottom-footer {
     background-color: var(--brand-pink);
@@ -259,7 +401,7 @@ main {
         padding-bottom: 6px;
     }
     .nav-link {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
     }
     .diff-btn {
         padding: 6px 18px;
@@ -272,6 +414,18 @@ main {
     }
     #resultText {
         font-size: 1.1rem !important;
+    }
+    .card-back-main {
+        padding: 14px 10px 14px 16px;
+    }
+    .card-back-title {
+        font-size: 1.55rem;
+    }
+    .card-back-block {
+        font-size: 0.98rem;
+    }
+    .card-back-side {
+        width: 52px;
     }
     .bottom-footer {
         padding: 8px 14px;

@@ -4,7 +4,6 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>SkillShot</title>
-        <link rel="stylesheet" href="assets/style/style.css" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,13 +15,14 @@
         <!-- Tailwind CSS -->
         <script src="https://cdn.tailwindcss.com"></script>
 
-        <style></style>
+        <!-- Custom Styles -->
+        <link rel="stylesheet" href="assets/style/style.css" />
     </head>
 
     <body>
         <header class="top-header flex items-center px-4 sm:px-12 shadow-sm">
             <div
-                class="flex items-center justify-between sm:justify-start gap-4 sm:gap-14 w-full max-w-7xl"
+                class="flex items-center justify-between sm:justify-start gap-3 sm:gap-12 w-full max-w-7xl"
             >
                 <!-- SkillShot Logo with Hourglass replacing 'o' in Shot -->
                 <a
@@ -97,7 +97,7 @@
 
                 <!-- Navigation Links -->
                 <nav
-                    class="flex items-center gap-4 sm:gap-11"
+                    class="flex items-center gap-3 sm:gap-9"
                     aria-label="Main Navigation"
                 >
                     <button
@@ -123,6 +123,14 @@
                         class="nav-link bg-transparent border-0"
                     >
                         Timer
+                    </button>
+                    <button
+                        id="nav-cards"
+                        type="button"
+                        onclick="switchView('cards')"
+                        class="nav-link bg-transparent border-0"
+                    >
+                        Cards
                     </button>
                 </nav>
             </div>
@@ -365,6 +373,167 @@
                     </button>
                 </div>
             </section>
+
+            <!-- ==================== VIEW 4: CUSTOM & GAME CARDS ==================== -->
+            <section
+                id="view-cards"
+                class="hidden w-full max-w-5xl mx-auto px-5 sm:px-10 pt-6 sm:pt-10 pb-8"
+            >
+                <h1
+                    class="font-display font-bold text-3xl sm:text-5xl text-center text-[#0D0D0D] tracking-tight mb-5"
+                >
+                    Cards
+                </h1>
+
+                <!-- Random Draw & Flip Controls -->
+                <div
+                    class="flex flex-wrap items-center justify-center gap-3 mb-7"
+                >
+                    <button
+                        type="button"
+                        onclick="drawRandomCard()"
+                        class="px-7 py-2.5 rounded-full bg-[#68F957] border-2 border-[#0D0D0D] font-display font-bold text-lg sm:text-xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer"
+                    >
+                        Random Card
+                    </button>
+                    <button
+                        type="button"
+                        onclick="flipRandomCard()"
+                        class="px-6 py-2.5 rounded-full bg-[#F9DF2B] border-2 border-[#0D0D0D] font-display font-bold text-lg sm:text-xl text-[#0D0D0D] shadow-sm hover:opacity-90 active:scale-95 transition cursor-pointer"
+                    >
+                        Flip Card
+                    </button>
+                </div>
+
+                <!-- Single Random Card Stage (No text under card) -->
+                <div
+                    id="randomCardStage"
+                    class="w-full max-w-lg mx-auto mb-10"
+                ></div>
+
+                <!-- Form to add Card + Definition + Action -->
+                <form
+                    id="customCardForm"
+                    onsubmit="addCustomCard(event)"
+                    class="card-form mb-8"
+                >
+                    <h2
+                        class="font-display font-bold text-2xl text-[#0D0D0D] mb-4"
+                    >
+                        Add a card
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label
+                                for="cardTitleInput"
+                                class="block font-condensed font-semibold text-lg text-[#0D0D0D] mb-1"
+                            >
+                                Card
+                            </label>
+                            <input
+                                id="cardTitleInput"
+                                type="text"
+                                required
+                                placeholder="Card name..."
+                                class="card-field"
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                for="cardDefInput"
+                                class="block font-condensed font-semibold text-lg text-[#0D0D0D] mb-1"
+                            >
+                                Definition
+                            </label>
+                            <textarea
+                                id="cardDefInput"
+                                rows="2"
+                                required
+                                placeholder="Definition..."
+                                class="card-field"
+                            ></textarea>
+                        </div>
+
+                        <div>
+                            <label
+                                for="cardActionInput"
+                                class="block font-condensed font-semibold text-lg text-[#0D0D0D] mb-1"
+                            >
+                                Action
+                            </label>
+                            <input
+                                id="cardActionInput"
+                                type="text"
+                                required
+                                placeholder="Action..."
+                                class="card-field"
+                            />
+                        </div>
+                    </div>
+
+                    <div
+                        class="mt-5 flex flex-wrap items-center justify-between gap-3"
+                    >
+                        <button
+                            type="submit"
+                            class="px-6 py-2.5 rounded-full bg-[#68F957] border-2 border-[#0D0D0D] font-display font-bold text-lg text-[#0D0D0D] hover:opacity-90 active:scale-95 transition cursor-pointer"
+                        >
+                            Save
+                        </button>
+                        <button
+                            type="button"
+                            onclick="clearCustomCards()"
+                            class="px-4 py-2 rounded-full bg-white border border-neutral-400 font-condensed text-base text-neutral-700 hover:bg-neutral-100 cursor-pointer"
+                        >
+                            Clear custom cards
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Filter & Counter -->
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5"
+                >
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button
+                            type="button"
+                            id="filter-all"
+                            onclick="setCardFilter('all')"
+                            class="filter-pill active"
+                        >
+                            All
+                        </button>
+                        <button
+                            type="button"
+                            id="filter-custom"
+                            onclick="setCardFilter('custom')"
+                            class="filter-pill"
+                        >
+                            Custom
+                        </button>
+                        <button
+                            type="button"
+                            id="filter-default"
+                            onclick="setCardFilter('default')"
+                            class="filter-pill"
+                        >
+                            Base
+                        </button>
+                    </div>
+                    <div
+                        id="cardsCount"
+                        class="text-sm sm:text-base text-neutral-500 font-condensed"
+                    ></div>
+                </div>
+
+                <!-- Cards Grid (No text under cards) -->
+                <div
+                    id="cardsList"
+                    class="grid grid-cols-1 md:grid-cols-2 gap-6"
+                ></div>
+            </section>
         </main>
 
         <!-- STICKY PINK FOOTER -->
@@ -456,11 +625,13 @@
                     wheel: document.getElementById("view-wheel"),
                     dictionary: document.getElementById("view-dictionary"),
                     timer: document.getElementById("view-timer"),
+                    cards: document.getElementById("view-cards"),
                 };
                 const navs = {
                     wheel: document.getElementById("nav-wheel"),
                     dictionary: document.getElementById("nav-dictionary"),
                     timer: document.getElementById("nav-timer"),
+                    cards: document.getElementById("nav-cards"),
                 };
 
                 Object.keys(views).forEach((key) => {
@@ -475,6 +646,13 @@
 
                 if (viewName === "wheel") {
                     resizeAndDrawWheel();
+                } else if (viewName === "cards") {
+                    if (!activeRandomCardId) {
+                        drawRandomCard();
+                    } else {
+                        renderRandomCardStage();
+                    }
+                    renderGameCards();
                 }
 
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1497,7 +1675,266 @@
                 input.focus();
             }
 
-            /* 5. LEGAL NOTICE MODAL */
+            /* 5. CARDS — RANDOM DRAW, EXACT RECTO SVG, FULL BACK TEXT, NO CAPTIONS */
+            const CUSTOM_CARDS_STORAGE_KEY = "skillshot_custom_cards_v1";
+            let currentCardFilter = "all";
+            let activeRandomCardId = null;
+            const flippedCardsSet = new Set();
+
+            function getBaseGameCards() {
+                return SOFT_SKILLS.map((skill) => ({
+                    id: `base-${skill.id}`,
+                    title: skill.title,
+                    definition: skill.definition,
+                    action: skill.example,
+                    isCustom: false,
+                }));
+            }
+
+            function getCustomCards() {
+                try {
+                    const raw = localStorage.getItem(CUSTOM_CARDS_STORAGE_KEY);
+                    const parsed = raw ? JSON.parse(raw) : [];
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function saveCustomCards(cards) {
+                try {
+                    localStorage.setItem(
+                        CUSTOM_CARDS_STORAGE_KEY,
+                        JSON.stringify(cards),
+                    );
+                } catch (e) {}
+            }
+
+            function getAllCards() {
+                return [...getCustomCards(), ...getBaseGameCards()];
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement("div");
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function drawRandomCard() {
+                const pool = getAllCards();
+                if (pool.length === 0) return;
+
+                let candidates = pool;
+                if (pool.length > 1 && activeRandomCardId) {
+                    candidates = pool.filter(
+                        (c) => c.id !== activeRandomCardId,
+                    );
+                }
+
+                const picked =
+                    candidates[Math.floor(Math.random() * candidates.length)];
+                activeRandomCardId = picked.id;
+                flippedCardsSet.delete(picked.id);
+                renderRandomCardStage();
+            }
+
+            function flipRandomCard() {
+                if (!activeRandomCardId) {
+                    drawRandomCard();
+                    return;
+                }
+                toggleCardSide(activeRandomCardId);
+            }
+
+            function toggleCardSide(cardId) {
+                if (flippedCardsSet.has(cardId)) {
+                    flippedCardsSet.delete(cardId);
+                } else {
+                    flippedCardsSet.add(cardId);
+                }
+                renderRandomCardStage();
+                renderGameCards();
+            }
+
+            function buildCardMarkup(card) {
+                const isBack = flippedCardsSet.has(card.id);
+
+                if (isBack) {
+                    return `
+                        <div class="card-back">
+                            <div class="card-back-main">
+                                <h3 class="card-back-title">${escapeHtml(card.title)}.</h3>
+                                <p class="card-back-block">
+                                    <strong>Definition.</strong>
+                                    ${escapeHtml(card.definition)}
+                                </p>
+                                <p class="card-back-block">
+                                    <strong>Action.</strong>
+                                    ${escapeHtml(card.action)}
+                                </p>
+                            </div>
+                            <div class="card-back-side" aria-hidden="true">
+                                <svg viewBox="0 0 80 260" preserveAspectRatio="none">
+                                    <path
+                                        d="M 80 0 L 18 0 C 2 0 2 32.5 18 32.5 C 2 32.5 2 65 18 65 C 2 65 2 97.5 18 97.5 C 2 97.5 2 130 18 130 C 2 130 2 162.5 18 162.5 C 2 162.5 2 195 18 195 C 2 195 2 227.5 18 227.5 C 2 227.5 2 260 18 260 L 80 260 Z"
+                                        fill="#F9630B"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="card-front">
+                        <svg class="card-front-svg" viewBox="0 0 420 260" preserveAspectRatio="none" aria-hidden="true">
+                            <path
+                                d="
+                                    M 68 38
+                                    C 76 16 116 16 124 38
+                                    C 132 16 172 16 180 38
+                                    C 188 16 228 16 236 38
+                                    C 244 16 284 16 292 38
+                                    C 300 16 340 16 348 38
+                                    C 386 42 402 82 402 130
+                                    C 402 178 386 218 348 222
+                                    C 340 244 300 244 292 222
+                                    C 284 244 244 244 236 222
+                                    C 228 244 188 244 180 222
+                                    C 172 244 132 244 124 222
+                                    C 116 244 76 244 68 222
+                                    C 30 218 14 178 14 130
+                                    C 14 82 30 42 68 38 Z
+                                "
+                                fill="#FA61AA"
+                            />
+                        </svg>
+                        <div class="card-front-logo">
+                            <span class="font-display font-bold text-4xl sm:text-5xl tracking-tight text-[#F9DF2B] flex items-center leading-none">
+                                SkillSh
+                                <svg
+                                    class="inline-block w-[0.58em] h-[0.76em] mx-[1px] translate-y-[1px]"
+                                    viewBox="0 0 24 32"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    aria-hidden="true"
+                                >
+                                    <rect x="2" y="1" width="20" height="3.2" rx="1" fill="#F9DF2B" />
+                                    <rect x="2" y="27.8" width="20" height="3.2" rx="1" fill="#F9DF2B" />
+                                    <path d="M5 4.2V8.5C5 11.8 8.5 14.3 12 16C15.5 14.3 19 11.8 19 8.5V4.2H5Z" stroke="#F9DF2B" stroke-width="2.6" stroke-linejoin="round" />
+                                    <path d="M5 27.8V23.5C5 20.2 8.5 17.7 12 16C15.5 17.7 19 20.2 19 23.5V27.8H5Z" stroke="#F9DF2B" stroke-width="2.6" stroke-linejoin="round" />
+                                    <path d="M7.5 8.5H16.5C16.2 10.6 14.2 12.6 12 13.8C9.8 12.6 7.8 10.6 7.5 8.5Z" fill="#F9DF2B" />
+                                    <path d="M7.2 26.5H16.8C16.4 24.4 14.2 23.2 12 23.2C9.8 23.2 7.6 24.4 7.2 26.5Z" fill="#F9DF2B" />
+                                    <line x1="12" y1="15.5" x2="12" y2="23.5" stroke="#F9DF2B" stroke-width="1.6" stroke-dasharray="2 1.5" />
+                                </svg>
+                                t
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function renderRandomCardStage() {
+                const stage = document.getElementById("randomCardStage");
+                if (!stage) return;
+
+                const allCards = getAllCards();
+                if (allCards.length === 0) {
+                    stage.innerHTML = "";
+                    return;
+                }
+
+                let card = allCards.find((c) => c.id === activeRandomCardId);
+                if (!card) {
+                    card =
+                        allCards[Math.floor(Math.random() * allCards.length)];
+                    activeRandomCardId = card.id;
+                }
+
+                stage.innerHTML = `
+                    <article class="skillshot-card" onclick="toggleCardSide('${card.id}')">
+                        ${buildCardMarkup(card)}
+                    </article>
+                `;
+            }
+
+            function addCustomCard(event) {
+                event.preventDefault();
+
+                const titleInput = document.getElementById("cardTitleInput");
+                const defInput = document.getElementById("cardDefInput");
+                const actionInput = document.getElementById("cardActionInput");
+
+                const title = titleInput.value.trim();
+                const definition = defInput.value.trim();
+                const action = actionInput.value.trim();
+
+                if (!title || !definition || !action) return;
+
+                const newId = `custom-${Date.now()}`;
+                const customCards = getCustomCards();
+                customCards.unshift({
+                    id: newId,
+                    title,
+                    definition,
+                    action,
+                    isCustom: true,
+                });
+
+                saveCustomCards(customCards);
+                activeRandomCardId = newId;
+                flippedCardsSet.add(newId);
+                event.target.reset();
+                renderRandomCardStage();
+                renderGameCards();
+            }
+
+            function clearCustomCards() {
+                saveCustomCards([]);
+                renderRandomCardStage();
+                renderGameCards();
+            }
+
+            function setCardFilter(filterType) {
+                currentCardFilter = filterType;
+                ["all", "custom", "default"].forEach((type) => {
+                    const btn = document.getElementById(`filter-${type}`);
+                    if (btn)
+                        btn.classList.toggle("active", type === filterType);
+                });
+                renderGameCards();
+            }
+
+            function renderGameCards() {
+                const listEl = document.getElementById("cardsList");
+                const countEl = document.getElementById("cardsCount");
+                if (!listEl || !countEl) return;
+
+                const customCards = getCustomCards();
+                const baseCards = getBaseGameCards();
+                const allCards = [...customCards, ...baseCards];
+
+                let visibleCards = allCards;
+                if (currentCardFilter === "custom") {
+                    visibleCards = customCards;
+                } else if (currentCardFilter === "default") {
+                    visibleCards = baseCards;
+                }
+
+                countEl.textContent = `${visibleCards.length} cards`;
+
+                listEl.innerHTML = visibleCards
+                    .map(
+                        (card) => `
+                        <article class="skillshot-card" onclick="toggleCardSide('${card.id}')">
+                            ${buildCardMarkup(card)}
+                        </article>
+                    `,
+                    )
+                    .join("");
+            }
+
+            /* 6. LEGAL NOTICE MODAL */
             function openLegalModal() {
                 const modal = document.getElementById("legalModal");
                 modal.classList.remove("hidden");
@@ -1524,12 +1961,14 @@
                 }
             });
 
-            /* 6. INITIALIZATION */
+            /* 7. INITIALIZATION */
             window.addEventListener("resize", resizeAndDrawWheel);
             window.onload = function () {
                 updateProbabilitySummary();
                 resizeAndDrawWheel();
                 renderSkills(SOFT_SKILLS);
+                drawRandomCard();
+                renderGameCards();
                 updateTimerUI();
             };
         </script>
